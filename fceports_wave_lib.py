@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul  9 13:20:17 2022
+
+@author: Adilson José Pereira Junior
+"""
+
 # Importação das bibliotecas necessárias
-import numpy as np
-import pandas as pd
 import sympy as sym
 import math
 
@@ -19,3 +24,4 @@ def solver_velocidadedegrupo(L, T, h):
 ### Equação para a energia total da onda
 def solver_energiatotal(H, g=9.81, ho=1024):
     return(ho*g*(H**2)/8)
+
