@@ -1,7 +1,7 @@
 ## BIBLIOTECAS ##
 from operator import mod
 import tkinter as tk
-from efeito_onda import *
+from efeito_onda_parede import *
     
 app = tk.Tk()
 # Título da Janela
@@ -29,7 +29,7 @@ options = {'padx': 5, 'pady': 5}
 # TITULO EM CIMA DO SOFTWARE
 lbl_title = tk.Label(
     app, 
-    text = 'FORÇA EXERCIDA POR ONDAS EM ESTACAS CIRCULARES',
+    text = 'FORÇA EXERCIDA POR ONDAS EM PAREDES',
     font = ('Times New Roman', 17, 'bold')
     )
 lbl_title.grid(
@@ -44,7 +44,7 @@ lbl_title.grid(
 # PARAMETROS A SEREM INFORMADOS
 lbl_paramentros_local = tk.Label(
     app, 
-    text = 'PARÂMETROS DA ESTACA E DO LOCAL',
+    text = 'PARÂMETROS DO LOCAL',
     font = ('Times New Roman', 11, 'bold')
     )
 lbl_paramentros_local.grid(row=1, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
@@ -56,29 +56,11 @@ lbl_profundidade.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
 ety_profundidade = tk.Entry(app, width=20)
 ety_profundidade.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
 
-# CD 3
-lbl_cd = tk.Label(app, text = 'CD')
-lbl_cd.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-ety_cd = tk.Entry(app, width=20)
-ety_cd.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
-
-# CM 4
-lbl_cm = tk.Label(app, text = 'CM')
-lbl_cm.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-ety_cm = tk.Entry(app, width=20)
-ety_cm.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
-
 # rho 5
 lbl_rho = tk.Label(app, text = '𝜌 (kg/m³)')
 lbl_rho.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
 ety_rho = tk.Entry(app, width=20)
 ety_rho.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
-
-# Diâmetro 6
-lbl_diametro = tk.Label(app, text = 'Diâmetro da estaca (m)')
-lbl_diametro.grid(row=6, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-ety_diametro = tk.Entry(app, width=20)
-ety_diametro.grid(row=6, column=1, padx=10, pady=5, sticky=tk.N)
 
 # PARAMETROS A SEREM INFORMADOS
 lbl_paramentros_onda = tk.Label(
@@ -89,11 +71,11 @@ lbl_paramentros_onda = tk.Label(
 lbl_paramentros_onda.grid(row=7, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
 #### ONDA
 #### COMECA NA LINHA 8
-# Periodo da onda 8
-lbl_periodo_onda = tk.Label(app, text = 'Período da Onda (s)')
-lbl_periodo_onda.grid(row=8, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-ety_periodo_onda = tk.Entry(app, width=20)
-ety_periodo_onda.grid(row=8, column=1, padx=10, pady=5, sticky=tk.N)
+# Comprimento da linha 8
+lbl_comprimento_onda = tk.Label(app, text = 'Comprimento da onda (m)')
+lbl_comprimento_onda.grid(row=8, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+ety_comprimento_onda = tk.Entry(app, width=20)
+ety_comprimento_onda.grid(row=8, column=1, padx=10, pady=5, sticky=tk.N)
 
 # Altura da onda 9
 lbl_altura_onda = tk.Label(app, text = 'Altura da Onda (m)')
@@ -111,7 +93,7 @@ statusbar.grid(row=11, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5
 # DESENHO DA ESTACA
 frm_drawning = tk.Frame(
     app,
-    width=300, 
+    width=450, 
     height=500,
     highlightbackground="black", 
     highlightthickness=1
@@ -128,15 +110,12 @@ canva_estaca = tk.Canvas(
     )
 canva_estaca.pack()
 
-def teste():
-    solo, agua, estaca, carga, t_agua, t_solo, t_carga_topo, t_carga_base = coordenadas_canva(
+def draw_results():
+    solo, agua, parede, carregamento, plano_medio = coordenadas_canva(
         largura_canva = canva_largura,
         altura_canva = canva_altura,
-        periodo_onda = float(ety_periodo_onda.get()),
+        comprimento_onda = float(ety_comprimento_onda.get()),
         profundidade = float(ety_profundidade.get()),
-        diametro = float(ety_diametro.get()),
-        CD = float(ety_cd.get()),
-        CM = float(ety_cm.get()),
         rho = float(ety_rho.get()),
         altura_onda = float(ety_altura_onda.get())
         )
@@ -148,51 +127,55 @@ def teste():
         agua,
         fill='blue'
         )
-    canva_estaca.create_rectangle(estaca)
-    canva_estaca.create_line(carga)
-    canva_estaca.create_text(
-        t_agua[0] , 
-        t_agua[1] , 
-        text = t_agua[2]
-    ) # Agua
-    canva_estaca.create_text(
-        t_solo[0] , 
-        t_solo[1] , 
-        text = t_solo[2]
-    ) # Solo
-    canva_estaca.create_text(
-        t_carga_base[0] , 
-        t_carga_base[1] , 
-        text = t_carga_base[2]
-    ) # Cmin
-    canva_estaca.create_text(
-        t_carga_topo[0] , 
-        t_carga_topo[1] , 
-        text = t_carga_topo[2]
-    ) # Cmax
-    n_loads = len(carga)
+    canva_estaca.create_line(
+        plano_medio,
+        fill='red'
+        )
+    canva_estaca.create_rectangle(parede)
+    canva_estaca.create_line(carregamento)
+    #canva_estaca.create_text(
+    #    t_agua[0] , 
+    #    t_agua[1] , 
+    #    text = t_agua[2]
+    #) # Agua
+    #canva_estaca.create_text(
+    #    t_solo[0] , 
+    #    t_solo[1] , 
+    #    text = t_solo[2]
+    #) # Solo
+    #canva_estaca.create_text(
+    #    t_carga_base[0] , 
+    #    t_carga_base[1] , 
+    #    text = t_carga_base[2]
+    #) # Cmin
+    #canva_estaca.create_text(
+    #    t_carga_topo[0] , 
+    #    t_carga_topo[1] , 
+    #    text = t_carga_topo[2]
+    #) # Cmax
+    #n_loads = len(carga)
     # Primeira meio OK
-    seta = [estaca[0]]
-    seta.append(carga[round((n_loads/2))])
-    seta.append(carga[round((n_loads/2)+1)])
-    seta.append(carga[round((n_loads/2))])
-    canva_estaca.create_line(seta, arrow=tk.FIRST)
+    #seta = [estaca[0]]
+    #seta.append(carga[round((n_loads/2))])
+    #seta.append(carga[round((n_loads/2)+1)])
+    #seta.append(carga[round((n_loads/2))])
+    #canva_estaca.create_line(seta, arrow=tk.FIRST)
     # Segunda meio inferior OK
-    seta = [estaca[0]]
-    seta.append(carga[round((n_loads/4 + n_loads/2))+1]) #y
-    seta.append(carga[round((n_loads/4 + n_loads/2))]) #x
-    seta.append(carga[round((n_loads/4 + n_loads/2))+1]) #y
-    canva_estaca.create_line(seta, arrow=tk.FIRST)
+    #seta = [estaca[0]]
+    #seta.append(carga[round((n_loads/4 + n_loads/2))+1]) #y
+    #seta.append(carga[round((n_loads/4 + n_loads/2))]) #x
+    #seta.append(carga[round((n_loads/4 + n_loads/2))+1]) #y
+    #canva_estaca.create_line(seta, arrow=tk.FIRST)
     # Terceira meio superior OK
-    seta = [estaca[0]]
-    seta.append(carga[round((-n_loads/4 + n_loads/2))+1]) #y
-    seta.append(carga[round((-n_loads/4 + n_loads/2))]) #x
-    seta.append(carga[round((-n_loads/4 + n_loads/2))+1]) #y
-    canva_estaca.create_line(seta, arrow=tk.FIRST)
+    #seta = [estaca[0]]
+    #seta.append(carga[round((-n_loads/4 + n_loads/2))+1]) #y
+    #seta.append(carga[round((-n_loads/4 + n_loads/2))]) #x
+    #seta.append(carga[round((-n_loads/4 + n_loads/2))+1]) #y
+    #canva_estaca.create_line(seta, arrow=tk.FIRST)
 
 ###############################################################################
 # BOTAO PARA CALCULAR
-btn_calculate = tk.Button(app, text = 'CALCULAR', command=teste)
+btn_calculate = tk.Button(app, text = 'CALCULAR', command=draw_results)
 btn_calculate.grid(row=10, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
 
 
