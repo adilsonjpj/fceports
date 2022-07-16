@@ -8,6 +8,17 @@ Created on Sat Jul  9 13:24:36 2022
 import sympy as sym
 from fceports_wave_lib import *
 
+# Eta
+def solver_eta(
+    v=1,
+    eta = sym.Symbol('𝜂'),
+    k = sym.Symbol('k'),
+    h = sym.Symbol('h')):
+    return(sym.solvers.nsolve(
+        (0.5 * (1 + ( (2*k*h)/(sym.sinh(2*k*h)) ) )) - eta
+        , v
+    ))
+
 ## EFEITO DA ONDA EM ESTACAS
 
 ###############################################################################
@@ -65,7 +76,20 @@ def solver_forca_inercia_res(
     H = sym.Symbol('H'),
     km = sym.Symbol('km')):
     return(sym.solvers.nsolve(
-        (CM*rho*g*((sym.pi * D**2)/4)*H*km) - FM
+        (CM * rho * g * (sym.pi * (D**2)/4) * H * km) - FM
+        , v
+    ))
+
+def solver_forca_inercia_km(
+    v=1,
+    km = sym.Symbol('km'),
+    t = sym.Symbol('t'),
+    k = sym.Symbol('k'),
+    h = sym.Symbol('h'),
+    T = sym.Symbol('T')):
+    return(sym.solvers.nsolve(
+        ( (1/2) * sym.tanh(k*h) * sym.sin( -2*sym.pi*t/T )) - km
+        , v
     ))
 ###############################################################################
 ###############################################################################
@@ -122,9 +146,73 @@ def solver_forca_arraste_res(
     H = sym.Symbol('H'),
     kd = sym.Symbol('kd')):
     return(sym.solvers.nsolve(
-        (CD*(1/2)*rho*g*D*(H**2)*kd) - FD
+        (CD * 0.5 * rho * g * D * (H**2) * kd) - FD
+        , v
     ))
 
+
+def solver_forca_arraste_kd(
+    v=1,
+    kd = sym.Symbol('kd'),
+    eta = sym.Symbol('𝜂'),
+    t = sym.Symbol('t'),
+    T = sym.Symbol('T')):
+    return(sym.solvers.nsolve(
+        ( (1/4) * eta * sym.Abs( sym.cos(2*sym.pi*t/T) ) * sym.cos(2*sym.pi*t/T)) - kd
+        , v
+    ))
+
+###############################################################################
+###############################################################################
+# MOMENTO DE ARRASTE
+###############################################################################
+###############################################################################
+def solver_momento_arraste_res(
+    v=1,
+    MD = sym.Symbol('MD'),
+    FD = sym.Symbol('FD'),
+    h = sym.Symbol('h'),
+    sd = sym.Symbol('sd')):
+    return(sym.solvers.nsolve(
+        (FD * h * sd) - MD
+        , v
+    ))
+
+def solver_momento_arraste_sd(
+    v=1,
+    sd = sym.Symbol('sd'),
+    eta = sym.Symbol('𝜂'),
+    k = sym.Symbol('k'),
+    h = sym.Symbol('h')):
+    return(sym.solvers.nsolve(
+        ( (1/2) + ( (1/(2*eta)) * ( (1-sym.cosh(2*k*h)) / (2*k*h*sym.sinh(2*k*h)) ) ) ) - sd
+        , v
+    ))
+
+###############################################################################
+###############################################################################
+# MOMENTO DE INERCIA
+###############################################################################
+###############################################################################
+def solver_momento_inercia_res(
+    v=1,
+    MM = sym.Symbol('MM'),
+    FM = sym.Symbol('FM'),
+    h = sym.Symbol('h'),
+    sm = sym.Symbol('sm')):
+    return(sym.solvers.nsolve(
+        (FM * h * sm ) - MM
+        , v
+    ))
+def solver_momento_inercia_sm(
+    v=1,
+    sm = sym.Symbol('sm'),
+    k = sym.Symbol('k'),
+    h = sym.Symbol('h')):
+    return(sym.solvers.nsolve(
+        ( 1 + ((1-sym.cosh(k*h)) / (k*h*sym.sinh(k*h)))) - sm
+        , v
+    ))
 
 ############################################################################################
 ## REPASSANDO OS VALORES CALCULADOS PARA A INTERFACE GRÁFICA
