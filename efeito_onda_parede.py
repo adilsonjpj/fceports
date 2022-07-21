@@ -5,8 +5,8 @@ Created on Sat Jul  9 13:24:36 2022
 @author: Adilson José Pereira Junior
 """
 
-from cairo import PS_LEVEL_3
-import sympy as sym
+#from cairo import PS_LEVEL_3
+#import sympy as sym
 from fceports_wave_lib import *
 
 # Eta
@@ -113,8 +113,9 @@ def coordenadas_canva(
     h_parede = 80/100
     h_agua = 55/100
     h_solo = 5/100
-    h_H = 10/100
+    h_H = 15/100
     h_deltah = 3/100
+    l_maxima = 50/100
     
     # RETORNO DA FUNCAO
 #    solo = []
@@ -163,31 +164,37 @@ def coordenadas_canva(
     print (x_p17)
     print('x_p58:')
     print(x_p58)
+    fator_l = l_maxima *(x_lim_max/2)/x_p17
 
     # DESENHO DO CARREGAMENTO
     x_p3 = xS_parede
     y_p3 = y_agua -altura_canva*(h_H + h_deltah)
-    x_p7 = xS_parede + x_p17*10
+    x_p7 = xS_parede + x_p17*fator_l
     y_p7 = y_agua
-    x_p4 = xS_parede + deltap*10
+    x_p4 = xS_parede + deltap*fator_l
     y_p4 = yS_solo
-    x_p6 = xS_parede - deltap*10
+    x_p6 = xS_parede - deltap*fator_l
     y_p6 = yS_solo
-    x_p8 = xS_parede - x_p58*10
+    x_p8 = xS_parede - x_p58*fator_l
     y_p8 = y_planomedio + h_H*altura_canva
     x_p1 = xS_parede
     y_p1 = y_agua
-
-    # TEXTOS
-    #t_agua = [x_lim_max - (8*4), y_agua -15, 'Água'] # x,y,text
-    #t_solo = [x_lim_max - (8*4), yS_solo -15 , 'Solo'] # x,y,text
-    #t_carga_topo = [loads[2] + 30 , loads[1] +20, str(round(carga_original_topo, 2)) + ' kN/m'] # x,y,text
-    #t_carga_base = [loads[-4] + 30 , loads[-1] -20, str(round(carga_original_base, 2)) + ' kN/m'] # x,y,text
     
     solo = [xI_solo, yI_solo, xS_solo, yS_solo]
     agua = [xI_agua, y_agua, xS_agua, y_agua]
     parede = [xI_parede, yI_parede, xS_parede, yS_parede]
     plano_medio = [xI_planomedio, y_planomedio, xS_planomedio, y_planomedio]
     
+    # TEXTOS8
+    t_agua = [x_lim_max - (8*4), y_agua -10, 'Água'] # x,y,text
+    t_solo = [x_lim_max - (8*4), yS_solo -10 , 'Solo'] # x,y,text
+    t_deltah = [xI_planomedio + 50, y_planomedio -10 , 'Plano médio (Δℎ)'] # x,y,text
+    t_carga_17 = [x_p7 + 30 , y_p7 +20, str(round(x_p17, 2)) + ' kPa'] # x,y,text
+    t_carga_85 = [x_p8 - 30 , y_p8 +20, str(round(x_p58, 2)) + ' kPa'] # x,y,text
+    t_carga_base_e = [xS_parede - (xS_parede - x_p6)/2 , y_p6 -20, str(round(deltap, 2)) + ' kPa'] # x,y,text
+    t_carga_base_d = [xS_parede + (x_p4 - xS_parede)/2 , y_p4 -20, str(round(deltap, 2)) + ' kPa'] # x,y,text
+
+    textos = [t_agua, t_solo, t_deltah, t_carga_17, t_carga_85, t_carga_base_e, t_carga_base_d]
+
     carregamento = [x_p3, y_p3, x_p7, y_p7, x_p4, y_p4, x_p6, y_p6, x_p8, y_p8, x_p1, y_p1]
-    return(solo, agua, parede, carregamento, plano_medio) #t_agua, t_solo, t_carga_topo, t_carga_base)
+    return(solo, agua, parede, carregamento, plano_medio, textos)

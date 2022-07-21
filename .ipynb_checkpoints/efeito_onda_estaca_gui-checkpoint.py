@@ -140,7 +140,6 @@ def draw_results():
         rho = float(ety_rho.get()),
         altura_onda = float(ety_altura_onda.get())
         )
-    canva_estaca.delete("all")
     canva_estaca.create_rectangle(
         solo,
         fill='black'

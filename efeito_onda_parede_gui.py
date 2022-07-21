@@ -111,7 +111,8 @@ canva_estaca = tk.Canvas(
 canva_estaca.pack()
 
 def draw_results():
-    solo, agua, parede, carregamento, plano_medio = coordenadas_canva(
+    canva_estaca.delete("all")
+    solo, agua, parede, carregamento, plano_medio, textos = coordenadas_canva(
         largura_canva = canva_largura,
         altura_canva = canva_altura,
         comprimento_onda = float(ety_comprimento_onda.get()),
@@ -129,49 +130,20 @@ def draw_results():
         )
     canva_estaca.create_line(
         plano_medio,
-        fill='red'
+        fill='red',
+        dash=(4, 2)
         )
     canva_estaca.create_rectangle(parede)
     canva_estaca.create_line(carregamento)
-    #canva_estaca.create_text(
-    #    t_agua[0] , 
-    #    t_agua[1] , 
-    #    text = t_agua[2]
-    #) # Agua
-    #canva_estaca.create_text(
-    #    t_solo[0] , 
-    #    t_solo[1] , 
-    #    text = t_solo[2]
-    #) # Solo
-    #canva_estaca.create_text(
-    #    t_carga_base[0] , 
-    #    t_carga_base[1] , 
-    #    text = t_carga_base[2]
-    #) # Cmin
-    #canva_estaca.create_text(
-    #    t_carga_topo[0] , 
-    #    t_carga_topo[1] , 
-    #    text = t_carga_topo[2]
-    #) # Cmax
-    #n_loads = len(carga)
-    # Primeira meio OK
-    #seta = [estaca[0]]
-    #seta.append(carga[round((n_loads/2))])
-    #seta.append(carga[round((n_loads/2)+1)])
-    #seta.append(carga[round((n_loads/2))])
-    #canva_estaca.create_line(seta, arrow=tk.FIRST)
-    # Segunda meio inferior OK
-    #seta = [estaca[0]]
-    #seta.append(carga[round((n_loads/4 + n_loads/2))+1]) #y
-    #seta.append(carga[round((n_loads/4 + n_loads/2))]) #x
-    #seta.append(carga[round((n_loads/4 + n_loads/2))+1]) #y
-    #canva_estaca.create_line(seta, arrow=tk.FIRST)
-    # Terceira meio superior OK
-    #seta = [estaca[0]]
-    #seta.append(carga[round((-n_loads/4 + n_loads/2))+1]) #y
-    #seta.append(carga[round((-n_loads/4 + n_loads/2))]) #x
-    #seta.append(carga[round((-n_loads/4 + n_loads/2))+1]) #y
-    #canva_estaca.create_line(seta, arrow=tk.FIRST)
+    
+    # TEXTOS
+    for texto in textos:
+        canva_estaca.create_text(
+            texto[0] , 
+            texto[1] , 
+            text = texto[2]
+        )
+    #########
 
 ###############################################################################
 # BOTAO PARA CALCULAR
