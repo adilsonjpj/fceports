@@ -91,6 +91,14 @@ def solver_forca_inercia_km(
         ( (1/2) * sym.tanh(k*h) * sym.sin( -2*sym.pi*t/T )) - km
         , v
     ))
+### PERFORMANCE PARA O GUI
+def solver_forca_inercia_gui(CM, rho, g, D, H, T, L, k, z, t, h):
+    FM = ( CM*rho*g*(math.pi*(D**2)/4)*H*( (math.pi/L) * ((math.cosh(k*(z+h)))/(math.cosh(k*h))) ) * math.sin(-2*math.pi*t/T))
+    return( FM )
+def solver_forca_inercia_max_gui(CM, rho, g, D, H, L, k, z, h):
+    FM = CM*rho*g*(math.pi*(D**2)/4)*H* ( (math.pi/L) * ((math.cosh(k*(z+h)))/(math.cosh(k*h))) )
+    return( FM )
+
 ###############################################################################
 ###############################################################################
 # FORCA DE ARRASTE
@@ -161,6 +169,15 @@ def solver_forca_arraste_kd(
         ( (1/4) * eta * sym.Abs( sym.cos(2*sym.pi*t/T) ) * sym.cos(2*sym.pi*t/T)) - kd
         , v
     ))
+
+# PERFORMANCE
+def solver_forca_arraste_gui(CD, rho, g, D, H, T, L, k, z, t, h):
+    FD = ( CD*0.5*rho*g*D*(H**2) * ( ((g*T**2)/(4*L**2)) * (( (math.cosh(k*(z+h)))/(math.cosh(k*h)) )**2)) * math.Abs(math.cos(2*math.pi*t/T)) * math.cos(2*math.pi*t/T) )
+    return( FD )
+
+def solver_forca_arraste_max_gui(CD, rho, g, D, H, T, L, k, z, h):
+    FD = CD*0.5*rho*g*D*(H**2) * ( ((g*T**2)/(4*L**2)) * (( (math.cosh(k*(z+h)))/(math.cosh(k*h)) )**2))
+    return( FD )
 
 ###############################################################################
 ###############################################################################
@@ -284,7 +301,7 @@ def coordenadas_canva(
     loads.append( xS_estaca ) # Primeiro x
     loads.append( y_agua ) 
     for i in range(int(h*10) + 1):
-        carga_ponto = solver_forca_arraste_max(
+        carga_ponto = solver_forca_arraste_max_gui(
             CD = CD,
             rho = rho,
             g = 9.81,
