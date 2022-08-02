@@ -29,7 +29,7 @@ options = {'padx': 5, 'pady': 5}
 # TITULO EM CIMA DO SOFTWARE
 lbl_title = tk.Label(
     app, 
-    text = 'FORÇA EXERCIDA POR ONDAS EM ESTACAS CIRCULARES',
+    text = 'FORÇA DE INERCIA EXERCIDA POR ONDAS EM ESTACAS CIRCULARES',
     font = ('Times New Roman', 17, 'bold')
     )
 lbl_title.grid(
@@ -129,7 +129,7 @@ canva_estaca = tk.Canvas(
 canva_estaca.pack()
 
 def draw_results():
-    solo, agua, estaca, carga, t_agua, t_solo, t_carga_topo, t_carga_base = coordenadas_canva(
+    solo, agua, estaca, carga, t_agua, t_solo, t_carga_topo, t_carga_base = coordenadas_canva_inercia(
         largura_canva = canva_largura,
         altura_canva = canva_altura,
         periodo_onda = float(ety_periodo_onda.get()),

@@ -5,7 +5,6 @@ Created on Sat Jul  9 13:24:36 2022
 @author: Adilson José Pereira Junior
 """
 
-from xml.dom.expatbuilder import CDATA_SECTION_NODE
 import sympy as sym
 from fceports_wave_lib import *
 
@@ -21,25 +20,6 @@ def solver_eta(
     ))
 
 ## EFEITO DA ONDA EM ESTACAS
-
-class ForcaEstaca:
-    CM
-    CD
-    rho
-    g,
-    D,
-    H,
-    T,
-    L,
-    k,
-    z,
-    t,
-    h,
-
-    def solver_forca_inercia_gui(CM, rho, g, D, H, T, L, k, z, t, h):
-        FM = ( CM*rho*g*(math.pi*(D**2)/4)*H*( (math.pi/L) * ((math.cosh(k*(z+h)))/(math.cosh(k*h))) ) * math.sin(-2*math.pi*t/T))
-        return( FM )
-
 
 ###############################################################################
 ###############################################################################
@@ -109,16 +89,6 @@ def solver_forca_inercia_km(
     T = sym.Symbol('T')):
     return(sym.solvers.nsolve(
         ( (1/2) * sym.tanh(k*h) * sym.sin( -2*sym.pi*t/T )) - km
-        , v
-    ))
-
-def solver_forca_inercia_km_max(
-    v=1,
-    km = sym.Symbol('km'),
-    k = sym.Symbol('k'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( (1/2) * sym.tanh(k*h) ) - km
         , v
     ))
 ### PERFORMANCE PARA O GUI
@@ -322,14 +292,6 @@ def coordenadas_canva_arraste(
     xS_estaca = x_lim_max/2 +D_desenho/2
     yS_estaca = yS_solo - h_desenho - 50 # Somei 50 para ficar acima do nível d'agua
 
-    # Resultante
-    km_max = solver_forca_inercia_km_max(k=k, h=profundidade)
-    FM = solver_forca_inercia_res(CM=CM, rho=rho, g=9.81, D=diametro, H=altura_onda, km=km_max)
-
-    # Momentos
-    sm = solver_momento_inercia_sm(k=a, h=profundidade)
-    MM = solver_momento_inercia_res(FM=FM, h=profundidade, sm=sm)
-
     # DESENHO DO CARREGAMENTO
 
     carga_original_topo = 0
@@ -374,14 +336,12 @@ def coordenadas_canva_arraste(
     t_carga_topo = [loads[2] + 30 , loads[1] +20, str(round(carga_original_topo, 2)) + ' kN/m'] # x,y,text
     t_carga_base = [loads[-4] + 30 , loads[-1] -20, str(round(carga_original_base, 2)) + ' kN/m'] # x,y,text
     
-    textos = [t_agua, t_solo, t_carga_topo, t_carga_base]
-
     solo = [xI_solo, yI_solo, xS_solo, yS_solo]
     agua = [xI_agua, y_agua, xS_agua, y_agua]
     estaca = [xI_estaca, yI_estaca, xS_estaca, yS_estaca]
     carga = loads
 
-    return(solo, agua, estaca, carga, textos)
+    return(solo, agua, estaca, carga, t_agua, t_solo, t_carga_topo, t_carga_base)
 
 
 def coordenadas_canva_inercia(
@@ -441,17 +401,6 @@ def coordenadas_canva_inercia(
     xS_estaca = x_lim_max/2 +D_desenho/2
     yS_estaca = yS_solo - h_desenho - 50 # Somei 50 para ficar acima do nível d'agua
 
-    # Resultante
-    km_max = solver_forca_inercia_km_max(k=k, h=profundidade)
-    FM = solver_forca_inercia_res(CM=CM, rho=rho, g=9.81, D=diametro, H=altura_onda, km=km_max)
-
-    # Momentos
-    sm = solver_momento_inercia_sm(k=k, h=profundidade)
-    MM = solver_momento_inercia_res(FM=FM, h=profundidade, sm=sm)
-
-    # DESENHO DA RESULTANTE
-    resultante = 'aaa'
-
     # DESENHO DO CARREGAMENTO
 
     carga_original_topo = 0
@@ -462,15 +411,17 @@ def coordenadas_canva_inercia(
     loads.append( y_agua ) 
     for i in range(int(h*10) + 1):
         carga_ponto = solver_forca_inercia_max_gui(
-            CM=CM, 
-            rho=rho, 
-            g=9.81, 
-            D=D, 
-            H=H, 
-            L=L, 
-            k=k, 
-            z=float(-i/10), 
-            h=h)
+            CD = CD,
+            rho = rho,
+            g = 9.81,
+            D = D,
+            H = H,
+            T = T,
+            L = L,
+            k = k,
+            z = float(-i/10),
+            h = h
+        )
         # Salvando os max e min
         if (i==0):
             carga_original_topo = carga_ponto/1000
@@ -488,7 +439,8 @@ def coordenadas_canva_inercia(
     loads.append( xS_estaca )
     loads.append( yI_estaca )
 
-    
+    # Momentos
+    sm = solver_momento_inercia_sm(k=a, h=profundidade)
 
     # TEXTOS
     t_agua = [x_lim_max - (8*4), y_agua -15, 'Água'] # x,y,text
@@ -496,11 +448,9 @@ def coordenadas_canva_inercia(
     t_carga_topo = [loads[2] + 30 , loads[1] +20, str(round(carga_original_topo, 2)) + ' kN/m'] # x,y,text
     t_carga_base = [loads[-4] + 30 , loads[-1] -20, str(round(carga_original_base, 2)) + ' kN/m'] # x,y,text
     
-    textos = [t_agua, t_solo, t_carga_topo, t_carga_base]
-    
     solo = [xI_solo, yI_solo, xS_solo, yS_solo]
     agua = [xI_agua, y_agua, xS_agua, y_agua]
     estaca = [xI_estaca, yI_estaca, xS_estaca, yS_estaca]
     carga = loads
 
-    return(solo, agua, estaca, carga, textos, )
+    return(solo, agua, estaca, carga, t_agua, t_solo, t_carga_topo, t_carga_base)
