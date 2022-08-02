@@ -8,6 +8,7 @@ Created on Sat Jul  9 13:24:36 2022
 from xml.dom.expatbuilder import CDATA_SECTION_NODE
 import sympy as sym
 from fceports_wave_lib import *
+from fceports_gui_lib import *
 
 # Eta
 def solver_eta(
@@ -312,10 +313,8 @@ def coordenadas_canva_arraste(
     yS_solo = altura_canva - 30
 
     # DESENHO DA AGUA
-    y_agua = yS_solo - h_desenho
-    xI_agua = x_lim_min
-    xS_agua = x_lim_max
-   
+    agua = Linha(x1 = x_lim_min, y1 = yS_solo - h_desenho, x2 = x_lim_max, y2 = yS_solo - h_desenho)
+    
     # DESENHO DA ESTACA
     xI_estaca = x_lim_max/2 -D_desenho/2
     yI_estaca = yS_solo

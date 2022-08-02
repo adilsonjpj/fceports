@@ -2,6 +2,7 @@
 from operator import mod
 import tkinter as tk
 from efeito_onda_estaca import *
+from fceports_gui_lib import *
     
 app = tk.Tk()
 # Título da Janela
@@ -129,7 +130,7 @@ canva_estaca = tk.Canvas(
 canva_estaca.pack()
 
 def draw_results():
-    solo, agua, estaca, carga, t_agua, t_solo, t_carga_topo, t_carga_base = coordenadas_canva_arraste(
+    solo, agua, estaca, carga, textos = coordenadas_canva_arraste(
         largura_canva = canva_largura,
         altura_canva = canva_altura,
         periodo_onda = float(ety_periodo_onda.get()),
@@ -146,11 +147,11 @@ def draw_results():
         fill='black'
         )
     canva_estaca.create_line(
-        agua,
+        agua.coordenadas(),
         fill='blue'
         )
     canva_estaca.create_rectangle(estaca)
-    canva_estaca.create_line(carga)
+    canva_estaca.create_line(carga.coordenadas())
     canva_estaca.create_text(
         t_agua[0] , 
         t_agua[1] , 

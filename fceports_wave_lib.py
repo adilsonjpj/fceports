@@ -27,11 +27,16 @@ def solver_energiatotal(H, g=9.81, ho=1024):
 
 ### A onda tem propriedades, suas propriedades são
 class Onda:
+    T = float
+    H = float
+    a = float
+    sigma = float
+    L = float
     def __init__(self, T, H) -> None:
         self.T = T
         self.H = H
         self.a = H/2
         self.sigma = (2*math.pi)/T
     
-    def calcula_L(self, h) -> None:
-        self.L = solver_dispersao(T= self.T, h = h, g = 9.81)
+    def calcula_L(self, h, g=9.81) -> None:
+        self.L = solver_dispersao(T= self.T, h = h, g = g)

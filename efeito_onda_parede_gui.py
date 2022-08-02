@@ -4,11 +4,14 @@ import tkinter as tk
 from efeito_onda_parede import *
     
 app = tk.Tk()
-# Título da Janela
+
+
 app.title("FCEPORTS")
 # Tamanho da Janela
 app.geometry("800x600")
+
 # Não deixo ela ser redimensionada
+
 app.resizable(
     width=False,
     height=False
