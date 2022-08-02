@@ -2,7 +2,7 @@
 from operator import mod
 import tkinter as tk
 from efeito_onda_estaca import *
-from fceports_gui_lib import *
+from own_libs.gui_lib import *
     
 app = tk.Tk()
 # Título da Janela

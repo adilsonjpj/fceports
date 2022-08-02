@@ -75,10 +75,10 @@ lbl_paramentros_onda.grid(row=7, column=0, columnspan=2 , sticky=tk.W+tk.E, padx
 #### ONDA
 #### COMECA NA LINHA 8
 # Comprimento da linha 8
-lbl_comprimento_onda = tk.Label(app, text = 'Comprimento da onda (m)')
-lbl_comprimento_onda.grid(row=8, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-ety_comprimento_onda = tk.Entry(app, width=20)
-ety_comprimento_onda.grid(row=8, column=1, padx=10, pady=5, sticky=tk.N)
+lbl_periodo_onda = tk.Label(app, text = 'Periodo da onda (s)')
+lbl_periodo_onda.grid(row=8, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+ety_periodo_onda = tk.Entry(app, width=20)
+ety_periodo_onda.grid(row=8, column=1, padx=10, pady=5, sticky=tk.N)
 
 # Altura da onda 9
 lbl_altura_onda = tk.Label(app, text = 'Altura da Onda (m)')
@@ -118,25 +118,25 @@ def draw_results():
     solo, agua, parede, carregamento, plano_medio, textos = coordenadas_canva(
         largura_canva = canva_largura,
         altura_canva = canva_altura,
-        comprimento_onda = float(ety_comprimento_onda.get()),
+        periodo_onda = float(ety_periodo_onda.get()),
         profundidade = float(ety_profundidade.get()),
         rho = float(ety_rho.get()),
         altura_onda = float(ety_altura_onda.get())
         )
     canva_estaca.create_rectangle(
-        solo,
+        solo.coord(),
         fill='black'
         )
     canva_estaca.create_line(
-        agua,
+        agua.coord(),
         fill='blue'
         )
     canva_estaca.create_line(
-        plano_medio,
+        plano_medio.coord(),
         fill='red',
         dash=(4, 2)
         )
-    canva_estaca.create_rectangle(parede)
+    canva_estaca.create_rectangle(parede.coord())
     canva_estaca.create_line(carregamento)
     
     # TEXTOS

@@ -5,10 +5,9 @@ Created on Sat Jul  9 13:24:36 2022
 @author: Adilson José Pereira Junior
 """
 
-from xml.dom.expatbuilder import CDATA_SECTION_NODE
 import sympy as sym
-from fceports_wave_lib import *
-from fceports_gui_lib import *
+from own_libs.waves_lib import OceanWave
+from own_libs.gui_lib import Point, Line
 
 # Eta
 def solver_eta(
@@ -278,56 +277,68 @@ def coordenadas_canva_arraste(
     altura_onda
     ):
     
-    # Calculando o comprimento da onda em funcao da profundidade e do periodo
-    comprimento_onda = solver_dispersao(T= periodo_onda, h = profundidade)
     
+    
+    
+    
+    
+    
+    
+    # criando a onda
+    onda = OceanWave(T=periodo_onda, H=altura_onda)
+    # calculando o comprimento
+    onda.find_length(h=profundidade)
+
     ## SETANDO AS VARIAVEIS DA FORMULA
-    D = diametro # Diâmetro da estaca
-    h = round(profundidade,1) # Profundidade do local
-    L = comprimento_onda
-    H = altura_onda
-    T = periodo_onda
-    k = (2*sym.pi)/L
+    h = round(profundidade,2) # Profundidade do local
 
     # VARIAVEIS PARA O DESENHO
-    escala_y = 15
-    escala_x = 40
-    h_desenho = h * escala_y
-    D_desenho = D
-    # RETORNO DA FUNCAO
-#    solo = []
-#    agua = []
-#    estaca = []
-#    carga = []
+    # PORCENTAGENS
+    h_estaca = 80/100
+    h_agua = 55/100
+    h_solo = 5/100
+    h_H = 15/100
+    l_maxima = 50/100
+    
     #########################################################################################
     # SISTEMA DE COORDENADAS CANTO SUPERIOR ESQUERDO (0,0) CANTO INFERIOR DIREITO (MAX,MAX)
     # LIMITES DO QUADRO DE DESENHO
     x_lim_min = 0 # Canto esquerdo da tela
     x_lim_max = largura_canva # Canto direito da tela
 
-    # DESENHO DO SOLO
     # DESENHO FIXO, DEVE SER MODIFICADO AQUI
-    xI_solo = x_lim_min
-    yI_solo = altura_canva
-    xS_solo = x_lim_max
-    yS_solo = altura_canva - 30
+    
+    # DESENHO DO SOLO
+    yS_solo = altura_canva - altura_canva*h_solo
+    solo = Line(
+        p1 = Point(x_lim_min, altura_canva), 
+        p2 = Point(x_lim_max, yS_solo)
+    )
 
     # DESENHO DA AGUA
-    agua = Linha(x1 = x_lim_min, y1 = yS_solo - h_desenho, x2 = x_lim_max, y2 = yS_solo - h_desenho)
+    y_agua = yS_solo - (altura_canva*h_agua)
+    agua = Line(
+        p1 = Point(x_lim_min, y_agua), 
+        p2 = Point(x_lim_max, y_agua)
+    )
     
     # DESENHO DA ESTACA
-    xI_estaca = x_lim_max/2 -D_desenho/2
-    yI_estaca = yS_solo
-    xS_estaca = x_lim_max/2 +D_desenho/2
-    yS_estaca = yS_solo - h_desenho - 50 # Somei 50 para ficar acima do nível d'agua
+    x_estaca = x_lim_max/2
+    estaca = Line(
+        p1 = Point(x_estaca, yS_solo), 
+        p2 = Point(x_estaca, yS_solo - (altura_canva*h_estaca))
+    )
+    
+    ## SETANDO AS VARIAVEIS DA FORMULA
+    D = diametro # Diâmetro da estaca
 
     # Resultante
-    km_max = solver_forca_inercia_km_max(k=k, h=profundidade)
-    FM = solver_forca_inercia_res(CM=CM, rho=rho, g=9.81, D=diametro, H=altura_onda, km=km_max)
+    #km_max = solver_forca_inercia_km_max(k=k, h=profundidade)
+    #FM = solver_forca_inercia_res(CM=CM, rho=rho, g=9.81, D=diametro, H=altura_onda, km=km_max)
 
     # Momentos
-    sm = solver_momento_inercia_sm(k=a, h=profundidade)
-    MM = solver_momento_inercia_res(FM=FM, h=profundidade, sm=sm)
+    #sm = solver_momento_inercia_sm(k=a, h=profundidade)
+    #MM = solver_momento_inercia_res(FM=FM, h=profundidade, sm=sm)
 
     # DESENHO DO CARREGAMENTO
 
@@ -335,7 +346,7 @@ def coordenadas_canva_arraste(
     carga_original_base = 0
 
     loads = []
-    loads.append( xS_estaca ) # Primeiro x
+    loads.append( x_estaca ) # Primeiro x
     loads.append( y_agua ) 
     for i in range(int(h*10) + 1):
         carga_ponto = solver_forca_arraste_max_gui(
@@ -382,6 +393,32 @@ def coordenadas_canva_arraste(
 
     return(solo, agua, estaca, carga, textos)
 
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
+###################################################
 
 def coordenadas_canva_inercia(
     largura_canva, # Largura do canva
