@@ -32,6 +32,7 @@ class OceanWave:
     amplitude: float
     sigma: float
     length: float
+    k: float
     
     # CONSTRUCTOR
     def __init__(self, period: float, height: float) -> None:
@@ -42,7 +43,9 @@ class OceanWave:
     
     # ENCONTRAR O COMPRIMENTO L
     def find_length(self, depth: float, g: float = 9.81) -> None:
-        self.length = solver_dispersao(T= self.period, h = depth, g = g)
+        length = solver_dispersao(T= self.period, h = depth, g = g)
+        self.length = length
+        self.k = (2*math.pi)/length
 
     # ENCONTRAR ETA (PAREDE)
     #def find_eta_wall(self) -> float:

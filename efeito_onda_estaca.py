@@ -1,271 +1,12 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jul  9 13:24:36 2022
+from own_libs.gui_lib import *
+from own_libs.structures_lib import *
 
-@author: Adilson José Pereira Junior
-"""
-
-import sympy as sym
-from own_libs.waves_lib import OceanWave
-from own_libs.gui_lib import Point, Line
-
-# Eta
-def solver_eta(
-    v=1,
-    eta = sym.Symbol('𝜂'),
-    k = sym.Symbol('k'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        (0.5 * (1 + ( (2*k*h)/(sym.sinh(2*k*h)) ) )) - eta
-        , v
-    ))
-
-## EFEITO DA ONDA EM ESTACAS
-
-class ForcaEstaca:
-    CM
-    CD
-    rho
-    g,
-    D,
-    H,
-    T,
-    L,
-    k,
-    z,
-    t,
-    h,
-
-    def solver_forca_inercia_gui(CM, rho, g, D, H, T, L, k, z, t, h):
-        FM = ( CM*rho*g*(math.pi*(D**2)/4)*H*( (math.pi/L) * ((math.cosh(k*(z+h)))/(math.cosh(k*h))) ) * math.sin(-2*math.pi*t/T))
-        return( FM )
-
-
-###############################################################################
-###############################################################################
-# FORCA DE INERCIA
-###############################################################################
-###############################################################################
-def solver_forca_inercia(
-    v=1,
-    FM = sym.Symbol('FM'),
-    CM = sym.Symbol('CM'),
-    rho = sym.Symbol('𝜌'),
-    g = sym.Symbol('g'),
-    D = sym.Symbol('D'),
-    H = sym.Symbol('H'),
-    T = sym.Symbol('T'),
-    L = sym.Symbol('L'),
-    k = sym.Symbol('k'),
-    z = sym.Symbol('z'),
-    t = sym.Symbol('t'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( CM*rho*g*(sym.pi*(D**2)/4)*H* 
-        ( (sym.pi/L) * ((sym.cosh(k*(z+h)))/(sym.cosh(k*h))) ) *
-        sym.sin(-2*sym.pi*t/T)) - FM
-        , v
-    ))
-
-def solver_forca_inercia_max(
-    v=1,
-    FM = sym.Symbol('FM'),
-    CM = sym.Symbol('CM'),
-    rho = sym.Symbol('𝜌'),
-    g = sym.Symbol('g'),
-    D = sym.Symbol('D'),
-    H = sym.Symbol('H'),
-    T = sym.Symbol('T'),
-    L = sym.Symbol('L'),
-    k = sym.Symbol('k'),
-    z = sym.Symbol('z'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( CM*rho*g*(sym.pi*(D**2)/4)*H* 
-        ( (sym.pi/L) * ((sym.cosh(k*(z+h)))/(sym.cosh(k*h))) ) - FM)
-        , v
-    ))
-
-def solver_forca_inercia_res(
-    v=1,
-    FM = sym.Symbol('FM'),
-    CM = sym.Symbol('CM'),
-    rho = sym.Symbol('𝜌'),
-    g = sym.Symbol('g'),
-    D = sym.Symbol('D'),
-    H = sym.Symbol('H'),
-    km = sym.Symbol('km')):
-    return(sym.solvers.nsolve(
-        (CM * rho * g * (sym.pi * (D**2)/4) * H * km) - FM
-        , v
-    ))
-
-def solver_forca_inercia_km(
-    v=1,
-    km = sym.Symbol('km'),
-    t = sym.Symbol('t'),
-    k = sym.Symbol('k'),
-    h = sym.Symbol('h'),
-    T = sym.Symbol('T')):
-    return(sym.solvers.nsolve(
-        ( (1/2) * sym.tanh(k*h) * sym.sin( -2*sym.pi*t/T )) - km
-        , v
-    ))
-
-def solver_forca_inercia_km_max(
-    v=1,
-    km = sym.Symbol('km'),
-    k = sym.Symbol('k'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( (1/2) * sym.tanh(k*h) ) - km
-        , v
-    ))
-### PERFORMANCE PARA O GUI
-def solver_forca_inercia_gui(CM, rho, g, D, H, T, L, k, z, t, h):
-    FM = ( CM*rho*g*(math.pi*(D**2)/4)*H*( (math.pi/L) * ((math.cosh(k*(z+h)))/(math.cosh(k*h))) ) * math.sin(-2*math.pi*t/T))
-    return( FM )
-def solver_forca_inercia_max_gui(CM, rho, g, D, H, L, k, z, h):
-    FM = CM*rho*g*(math.pi*(D**2)/4)*H* ( (math.pi/L) * ((math.cosh(k*(z+h)))/(math.cosh(k*h))) )
-    return( FM )
-
-###############################################################################
-###############################################################################
-# FORCA DE ARRASTE
-###############################################################################
-###############################################################################
-def solver_forca_arraste(
-    v=1,
-    FD = sym.Symbol('FD'),
-    CD = sym.Symbol('CD'),
-    rho = sym.Symbol('𝜌'),
-    g = sym.Symbol('g'),
-    D = sym.Symbol('D'),
-    H = sym.Symbol('H'),
-    T = sym.Symbol('T'),
-    L = sym.Symbol('L'),
-    k = sym.Symbol('k'),
-    z = sym.Symbol('z'),
-    t = sym.Symbol('t'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( CD*0.5*rho*g*D*(H**2) * 
-        ( ((g*T**2)/(4*L**2)) * (( (sym.cosh(k*(z+h)))/(sym.cosh(k*h)) )**2)) *
-        sym.Abs(sym.cos(2*sym.pi*t/T)) * sym.cos(2*sym.pi*t/T) ) - FD
-        , v
-    ))
-
-def solver_forca_arraste_max(
-    v=1,
-    FD = sym.Symbol('FD'),
-    CD = sym.Symbol('CD'),
-    rho = sym.Symbol('𝜌'),
-    g = sym.Symbol('g'),
-    D = sym.Symbol('D'),
-    H = sym.Symbol('H'),
-    T = sym.Symbol('T'),
-    L = sym.Symbol('L'),
-    k = sym.Symbol('k'),
-    z = sym.Symbol('z'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( CD*0.5*rho*g*D*(H**2) * 
-        ( ((g*T**2)/(4*L**2)) * (( (sym.cosh(k*(z+h)))/(sym.cosh(k*h)) )**2)) - FD)
-        , v
-    ))
-
-def solver_forca_arraste_res(
-    v=1,
-    FD = sym.Symbol('FD'),
-    CD = sym.Symbol('CD'),
-    rho = sym.Symbol('𝜌'),
-    g = sym.Symbol('g'),
-    D = sym.Symbol('D'),
-    H = sym.Symbol('H'),
-    kd = sym.Symbol('kd')):
-    return(sym.solvers.nsolve(
-        (CD * 0.5 * rho * g * D * (H**2) * kd) - FD
-        , v
-    ))
-
-
-def solver_forca_arraste_kd(
-    v=1,
-    kd = sym.Symbol('kd'),
-    eta = sym.Symbol('𝜂'),
-    t = sym.Symbol('t'),
-    T = sym.Symbol('T')):
-    return(sym.solvers.nsolve(
-        ( (1/4) * eta * sym.Abs( sym.cos(2*sym.pi*t/T) ) * sym.cos(2*sym.pi*t/T)) - kd
-        , v
-    ))
-
-# PERFORMANCE
-def solver_forca_arraste_gui(CD, rho, g, D, H, T, L, k, z, t, h):
-    FD = ( CD*0.5*rho*g*D*(H**2) * ( ((g*T**2)/(4*L**2)) * (( (math.cosh(k*(z+h)))/(math.cosh(k*h)) )**2)) * math.Abs(math.cos(2*math.pi*t/T)) * math.cos(2*math.pi*t/T) )
-    return( FD )
-
-def solver_forca_arraste_max_gui(CD, rho, g, D, H, T, L, k, z, h):
-    FD = CD*0.5*rho*g*D*(H**2) * ( ((g*T**2)/(4*L**2)) * (( (math.cosh(k*(z+h)))/(math.cosh(k*h)) )**2))
-    return( FD )
-
-###############################################################################
-###############################################################################
-# MOMENTO DE ARRASTE
-###############################################################################
-###############################################################################
-def solver_momento_arraste_res(
-    v=1,
-    MD = sym.Symbol('MD'),
-    FD = sym.Symbol('FD'),
-    h = sym.Symbol('h'),
-    sd = sym.Symbol('sd')):
-    return(sym.solvers.nsolve(
-        (FD * h * sd) - MD
-        , v
-    ))
-
-def solver_momento_arraste_sd(
-    v=1,
-    sd = sym.Symbol('sd'),
-    eta = sym.Symbol('𝜂'),
-    k = sym.Symbol('k'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( (1/2) + ( (1/(2*eta)) * ( (1-sym.cosh(2*k*h)) / (2*k*h*sym.sinh(2*k*h)) ) ) ) - sd
-        , v
-    ))
-
-###############################################################################
-###############################################################################
-# MOMENTO DE INERCIA
-###############################################################################
-###############################################################################
-def solver_momento_inercia_res(
-    v=1,
-    MM = sym.Symbol('MM'),
-    FM = sym.Symbol('FM'),
-    h = sym.Symbol('h'),
-    sm = sym.Symbol('sm')):
-    return(sym.solvers.nsolve(
-        (FM * h * sm ) - MM
-        , v
-    ))
-def solver_momento_inercia_sm(
-    v=1,
-    sm = sym.Symbol('sm'),
-    k = sym.Symbol('k'),
-    h = sym.Symbol('h')):
-    return(sym.solvers.nsolve(
-        ( 1 + ((1-sym.cosh(k*h)) / (k*h*sym.sinh(k*h)))) - sm
-        , v
-    ))
 
 ############################################################################################
 ## REPASSANDO OS VALORES CALCULADOS PARA A INTERFACE GRÁFICA
 ############################################################################################
 
-def coordenadas_canva_arraste(
+def coordenadas_canva(
     largura_canva, # Largura do canva
     altura_canva, # Altura do Canva
     periodo_onda, # Periodo da onda
@@ -277,18 +18,22 @@ def coordenadas_canva_arraste(
     altura_onda
     ):
     
-    
-    
-    
-    
-    
-    
-    
     # criando a onda
-    onda = OceanWave(T=periodo_onda, H=altura_onda)
+    onda = OceanWave(period=periodo_onda, height=altura_onda)
     # calculando o comprimento
-    onda.find_length(h=profundidade)
+    onda.find_length(depth=profundidade)
 
+    # criando a estaca
+    estaca = Pile(
+        diameter=diametro,
+        length=profundidade,
+        CD=CD,
+        CM=CM)
+    # passando os parametros da onda criada
+    estaca.set_wave(onda)
+    # 
+    carregamento_inercia = estaca.calculate_max_inertia_force(rho=rho)
+    carregamento_arraste = estaca.calculate_max_drag_force(rho=rho)
     ## SETANDO AS VARIAVEIS DA FORMULA
     h = round(profundidade,2) # Profundidade do local
 
@@ -297,9 +42,8 @@ def coordenadas_canva_arraste(
     h_estaca = 80/100
     h_agua = 55/100
     h_solo = 5/100
-    h_H = 15/100
+    #h_H = 15/100
     l_maxima = 50/100
-    
     #########################################################################################
     # SISTEMA DE COORDENADAS CANTO SUPERIOR ESQUERDO (0,0) CANTO INFERIOR DIREITO (MAX,MAX)
     # LIMITES DO QUADRO DE DESENHO
@@ -324,219 +68,78 @@ def coordenadas_canva_arraste(
     
     # DESENHO DA ESTACA
     x_estaca = x_lim_max/2
-    estaca = Line(
+    d_estaca = Line(
         p1 = Point(x_estaca, yS_solo), 
         p2 = Point(x_estaca, yS_solo - (altura_canva*h_estaca))
     )
     
-    ## SETANDO AS VARIAVEIS DA FORMULA
-    D = diametro # Diâmetro da estaca
-
     # Resultante
-    #km_max = solver_forca_inercia_km_max(k=k, h=profundidade)
-    #FM = solver_forca_inercia_res(CM=CM, rho=rho, g=9.81, D=diametro, H=altura_onda, km=km_max)
-
+    FD = estaca.FD_res
+    FM = estaca.FM_res
     # Momentos
-    #sm = solver_momento_inercia_sm(k=a, h=profundidade)
-    #MM = solver_momento_inercia_res(FM=FM, h=profundidade, sm=sm)
+    sd = estaca.sd
+    sm = estaca.sm
+
+    # COTA INERCIA
+    cota_inercia = Line(
+        p1 = Point(l_maxima *(x_lim_max/2), yS_solo - ((yS_solo - y_agua)*sm)),
+        p2 = Point(l_maxima *(x_lim_max/2), yS_solo)
+    )
+    t_cota_inercia = [cota_inercia.p1.x - 5, (cota_inercia.p2.y + cota_inercia.p1.y)/2, str(round((sm * estaca.length),2))]
+    # COTA ARRASTE
+    cota_arraste = Line(
+        p1 = Point(l_maxima *(x_lim_max/2), yS_solo- ((yS_solo - y_agua)*sd)),
+        p2 = Point(l_maxima *(x_lim_max/2), yS_solo)
+    )
+    t_cota_arraste = [cota_arraste.p1.x - 5, (cota_arraste.p2.y + cota_arraste.p1.y)/2 , str(round((sd * estaca.length),2))]
+
 
     # DESENHO DO CARREGAMENTO
+    # DESCOBRE A FORÇA MÁXIMA
+    arraste_max = 0
+    inercia_max = 0
+    for i in carregamento_arraste:
+        if (i.y > arraste_max):
+            arraste_max = i.y
+    for i in carregamento_inercia:
+        if (i.y > inercia_max):
+            inercia_max = i.y
+    
+    fator_l_arraste = l_maxima *(x_lim_max/2)/arraste_max
+    fator_l_inercia = l_maxima *(x_lim_max/2)/inercia_max
+    # MONTA O VETOR COM AS POSICOES PARA O GUI
+    cargas_arraste = []
+    cargas_inercia = []
+    dist = yS_solo - y_agua
+    fator = dist/len(carregamento_arraste)
 
-    carga_original_topo = 0
-    carga_original_base = 0
-
-    loads = []
-    loads.append( x_estaca ) # Primeiro x
-    loads.append( y_agua ) 
-    for i in range(int(h*10) + 1):
-        carga_ponto = solver_forca_arraste_max_gui(
-            CD = CD,
-            rho = rho,
-            g = 9.81,
-            D = D,
-            H = H,
-            T = T,
-            L = L,
-            k = k,
-            z = float(-i/10),
-            h = h
-        )
-        # Salvando os max e min
-        if (i==0):
-            carga_original_topo = carga_ponto/1000
-        if (i==h*10):
-            carga_original_base = carga_ponto/1000
-        
-        x = (carga_ponto/escala_x) + xS_estaca
-        y = ((i/10) * escala_y) + y_agua
-        #print('x=' + str(x))
-        #print('y=' + str(y))
-        loads.append( x ) # X
-        loads.append( y ) # Vai ser o Y
-
-    # Final
-    loads.append( xS_estaca )
-    loads.append( yI_estaca )
+    contador = 0
+    for i in carregamento_arraste:
+        cargas_arraste.append(x_estaca + i.y*fator_l_arraste) #X
+        cargas_arraste.append( y_agua + contador*fator ) #Y
+        contador += 1
+    contador = 0
+    for i in carregamento_inercia:
+        cargas_inercia.append(x_estaca + i.y*fator_l_inercia) #X
+        cargas_inercia.append( y_agua + contador*fator ) #Y
+        contador += 1
+        #cargas_inercia.append((i.x) + y_agua) #Y
 
     # TEXTOS
     t_agua = [x_lim_max - (8*4), y_agua -15, 'Água'] # x,y,text
     t_solo = [x_lim_max - (8*4), yS_solo -15 , 'Solo'] # x,y,text
-    t_carga_topo = [loads[2] + 30 , loads[1] +20, str(round(carga_original_topo, 2)) + ' kN/m'] # x,y,text
-    t_carga_base = [loads[-4] + 30 , loads[-1] -20, str(round(carga_original_base, 2)) + ' kN/m'] # x,y,text
+    t_carga_topo_arraste = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_arraste[1] +30, str(round(carregamento_arraste[0].y, 2)) + ' kN/m'] # x,y,text
+    t_carga_base_arraste = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_arraste[-1] -30, str(round(carregamento_arraste[-1].y, 2)) + ' kN/m'] # x,y,text
+
+    t_carga_topo_inercia = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_inercia[1] +30, str(round(carregamento_inercia[0].y, 2)) + ' kN/m'] # x,y,text
+    t_carga_base_inercia = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_inercia[-1] -30, str(round(carregamento_inercia[-1].y, 2)) + ' kN/m'] # x,y,text
     
-    textos = [t_agua, t_solo, t_carga_topo, t_carga_base]
+    titulo_arraste = [x_estaca, 30, 'ARRASTE'] # x,y,text
+    titulo_inercia = [x_estaca, 30, 'INERCIA']
 
-    solo = [xI_solo, yI_solo, xS_solo, yS_solo]
-    agua = [xI_agua, y_agua, xS_agua, y_agua]
-    estaca = [xI_estaca, yI_estaca, xS_estaca, yS_estaca]
-    carga = loads
+    textos_arraste = [t_agua, t_solo, t_carga_topo_arraste, t_carga_base_arraste, titulo_arraste]
+    textos_inercia = [t_agua, t_solo, t_carga_topo_inercia, t_carga_base_inercia, titulo_inercia]
+    textos_cotas = [t_cota_arraste, t_cota_inercia]
 
-    return(solo, agua, estaca, carga, textos)
+    return(solo, agua, d_estaca, cargas_arraste, cargas_inercia, textos_arraste, textos_inercia, cota_arraste, cota_inercia, textos_cotas, FD, FM)
 
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-###################################################
-
-def coordenadas_canva_inercia(
-    largura_canva, # Largura do canva
-    altura_canva, # Altura do Canva
-    periodo_onda, # Periodo da onda
-    profundidade, # Profundidade da onda
-    diametro, # Diametro da Estaca
-    CD,
-    CM,
-    rho,
-    altura_onda
-    ):
-    
-    # Calculando o comprimento da onda em funcao da profundidade e do periodo
-    comprimento_onda = solver_dispersao(T= periodo_onda, h = profundidade)
-    
-    ## SETANDO AS VARIAVEIS DA FORMULA
-    D = diametro # Diâmetro da estaca
-    h = round(profundidade,2) # Profundidade do local
-    L = comprimento_onda
-    H = altura_onda
-    T = periodo_onda
-    k = (2*sym.pi)/L
-
-    # VARIAVEIS PARA O DESENHO
-    escala_y = 15
-    escala_x = 40
-    h_desenho = h * escala_y
-    D_desenho = D
-    # RETORNO DA FUNCAO
-#    solo = []
-#    agua = []
-#    estaca = []
-#    carga = []
-    #########################################################################################
-    # SISTEMA DE COORDENADAS CANTO SUPERIOR ESQUERDO (0,0) CANTO INFERIOR DIREITO (MAX,MAX)
-    # LIMITES DO QUADRO DE DESENHO
-    x_lim_min = 0 # Canto esquerdo da tela
-    x_lim_max = largura_canva # Canto direito da tela
-
-    # DESENHO DO SOLO
-    # DESENHO FIXO, DEVE SER MODIFICADO AQUI
-    xI_solo = x_lim_min
-    yI_solo = altura_canva
-    xS_solo = x_lim_max
-    yS_solo = altura_canva - 30
-
-    # DESENHO DA AGUA
-    y_agua = yS_solo - h_desenho
-    xI_agua = x_lim_min
-    xS_agua = x_lim_max
-   
-    # DESENHO DA ESTACA
-    xI_estaca = x_lim_max/2 -D_desenho/2
-    yI_estaca = yS_solo
-    xS_estaca = x_lim_max/2 +D_desenho/2
-    yS_estaca = yS_solo - h_desenho - 50 # Somei 50 para ficar acima do nível d'agua
-
-    # Resultante
-    km_max = solver_forca_inercia_km_max(k=k, h=profundidade)
-    FM = solver_forca_inercia_res(CM=CM, rho=rho, g=9.81, D=diametro, H=altura_onda, km=km_max)
-
-    # Momentos
-    sm = solver_momento_inercia_sm(k=k, h=profundidade)
-    MM = solver_momento_inercia_res(FM=FM, h=profundidade, sm=sm)
-
-    # DESENHO DA RESULTANTE
-    resultante = 'aaa'
-
-    # DESENHO DO CARREGAMENTO
-
-    carga_original_topo = 0
-    carga_original_base = 0
-
-    loads = []
-    loads.append( xS_estaca ) # Primeiro x
-    loads.append( y_agua ) 
-    for i in range(int(h*10) + 1):
-        carga_ponto = solver_forca_inercia_max_gui(
-            CM=CM, 
-            rho=rho, 
-            g=9.81, 
-            D=D, 
-            H=H, 
-            L=L, 
-            k=k, 
-            z=float(-i/10), 
-            h=h)
-        # Salvando os max e min
-        if (i==0):
-            carga_original_topo = carga_ponto/1000
-        if (i==h*10):
-            carga_original_base = carga_ponto/1000
-        
-        x = (carga_ponto/escala_x) + xS_estaca
-        y = ((i/10) * escala_y) + y_agua
-        #print('x=' + str(x))
-        #print('y=' + str(y))
-        loads.append( x ) # X
-        loads.append( y ) # Vai ser o Y
-
-    # Final
-    loads.append( xS_estaca )
-    loads.append( yI_estaca )
-
-    
-
-    # TEXTOS
-    t_agua = [x_lim_max - (8*4), y_agua -15, 'Água'] # x,y,text
-    t_solo = [x_lim_max - (8*4), yS_solo -15 , 'Solo'] # x,y,text
-    t_carga_topo = [loads[2] + 30 , loads[1] +20, str(round(carga_original_topo, 2)) + ' kN/m'] # x,y,text
-    t_carga_base = [loads[-4] + 30 , loads[-1] -20, str(round(carga_original_base, 2)) + ' kN/m'] # x,y,text
-    
-    textos = [t_agua, t_solo, t_carga_topo, t_carga_base]
-    
-    solo = [xI_solo, yI_solo, xS_solo, yS_solo]
-    agua = [xI_agua, y_agua, xS_agua, y_agua]
-    estaca = [xI_estaca, yI_estaca, xS_estaca, yS_estaca]
-    carga = loads
-
-    return(solo, agua, estaca, carga, textos, )
