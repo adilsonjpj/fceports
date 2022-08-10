@@ -105,17 +105,17 @@ frm_drawning.grid(row=1, column=2,  rowspan=10, padx=5, sticky=tk.W+tk.E+tk.N+tk
 
 canva_largura = 450
 canva_altura = 500
-canva_estaca = tk.Canvas(
+canva_parede = tk.Canvas(
     frm_drawning,
     width=canva_largura, 
     height=canva_altura,
     bg = 'white'
     )
-canva_estaca.pack()
+canva_parede.pack()
 
 def draw_results():
-    canva_estaca.delete("all")
-    solo, agua, parede, carregamento, plano_medio, textos = coordenadas_canva(
+    canva_parede.delete("all")
+    solo, agua, parede, carregamento, plano_medio, textos, cotas, textos_cotas, linha_58 = coordenadas_canva(
         largura_canva = canva_largura,
         altura_canva = canva_altura,
         periodo_onda = float(ety_periodo_onda.get()),
@@ -123,28 +123,45 @@ def draw_results():
         rho = float(ety_rho.get()),
         altura_onda = float(ety_altura_onda.get())
         )
-    canva_estaca.create_rectangle(
+    canva_parede.create_rectangle(
         solo.coord(),
         fill='black'
         )
-    canva_estaca.create_line(
+    canva_parede.create_line(
         agua.coord(),
         fill='blue'
         )
-    canva_estaca.create_line(
+    canva_parede.create_line(
         plano_medio.coord(),
         fill='red',
         dash=(4, 2)
         )
-    canva_estaca.create_rectangle(parede.coord())
-    canva_estaca.create_line(carregamento)
+    canva_parede.create_line(
+        linha_58.coord(),
+        fill='black',
+        dash=(4, 2)
+        )
+    canva_parede.create_rectangle(parede.coord())
+    canva_parede.create_line(carregamento)
     
     # TEXTOS
     for texto in textos:
-        canva_estaca.create_text(
+        canva_parede.create_text(
             texto[0] , 
             texto[1] , 
             text = texto[2]
+        )
+    # COTAS
+    for cota in cotas:
+        canva_parede.create_line(cota.coord(), fill='orange')
+    
+    # TEXTOS COTAS
+    for texto_cota in textos_cotas:
+        canva_parede.create_text(
+            texto_cota[0] , 
+            texto_cota[1] , 
+            text = texto_cota[2],
+            angle = 90
         )
     #########
 
