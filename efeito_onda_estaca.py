@@ -74,8 +74,8 @@ def coordenadas_canva(
     )
     
     # Resultante
-    FD = estaca.FD_res
-    FM = estaca.FM_res
+    FD = estaca.FD_res/1000
+    FM = estaca.FM_res/1000
     # Momentos
     sd = estaca.sd
     sm = estaca.sm
@@ -128,11 +128,11 @@ def coordenadas_canva(
     # TEXTOS
     t_agua = [x_lim_max - (8*4), y_agua -15, 'Água'] # x,y,text
     t_solo = [x_lim_max - (8*4), yS_solo -15 , 'Solo'] # x,y,text
-    t_carga_topo_arraste = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_arraste[1] +30, str(round(carregamento_arraste[0].y, 2)) + ' kN/m'] # x,y,text
-    t_carga_base_arraste = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_arraste[-1] -30, str(round(carregamento_arraste[-1].y, 2)) + ' kN/m'] # x,y,text
+    t_carga_topo_arraste = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_arraste[1] +30, str(round(carregamento_arraste[0].y/1000, 2)) + ' kN/m'] # x,y,text
+    t_carga_base_arraste = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_arraste[-1] -30, str(round(carregamento_arraste[-1].y/1000, 2)) + ' kN/m'] # x,y,text
 
-    t_carga_topo_inercia = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_inercia[1] +30, str(round(carregamento_inercia[0].y, 2)) + ' kN/m'] # x,y,text
-    t_carga_base_inercia = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_inercia[-1] -30, str(round(carregamento_inercia[-1].y, 2)) + ' kN/m'] # x,y,text
+    t_carga_topo_inercia = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_inercia[1] +30, str(round(carregamento_inercia[0].y/1000, 2)) + ' kN/m'] # x,y,text
+    t_carga_base_inercia = [x_estaca + l_maxima *(x_lim_max/2) + 50 , cargas_inercia[-1] -30, str(round(carregamento_inercia[-1].y/1000, 2)) + ' kN/m'] # x,y,text
     
     titulo_arraste = [x_estaca, 30, 'ARRASTE'] # x,y,text
     titulo_inercia = [x_estaca, 30, 'INERCIA']

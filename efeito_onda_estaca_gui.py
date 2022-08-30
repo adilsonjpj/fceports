@@ -245,7 +245,7 @@ def draw_results():
     canva_arraste.create_text(
         cota_arraste.coord()[0] - 20,
         cota_arraste.coord()[1] - 20,
-        text = str(round(FD, 2)) + ' kN/m',
+        text = str(round(FD, 2)) + ' kN',
         fill='red'
     )
     
@@ -259,7 +259,7 @@ def draw_results():
     canva_inercia.create_text(
         cota_inercia.coord()[0] - 20,
         cota_inercia.coord()[1] - 20,
-        text = str(round(FM, 2)) + ' kN/m',
+        text = str(round(FM, 2)) + ' kN',
         fill='red'
     )
 ###############################################################################
