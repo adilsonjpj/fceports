@@ -8,7 +8,7 @@ Created on Sat Jul  9 13:24:36 2022
 #import sympy as sym
 from own_libs.waves_lib import OceanWave
 from own_libs.gui_lib import Point, Line
-from own_libs.wave_wall_effect import solver_planomediodaonda, solver_variacaodepressao, solver_p17, solver_p58
+from own_libs.structures_lib import Wall
 
 ############################################################################################
 ## REPASSANDO OS VALORES CALCULADOS PARA A INTERFACE GRÁFICA
@@ -79,25 +79,26 @@ def coordenadas_canva(
         p2 = Point(x_parede, yS_solo - (altura_canva*h_parede))
     )
 
-    deltah = solver_planomediodaonda(H = onda.height, L = onda.length, h = h)
-    deltap = solver_variacaodepressao(H = onda.height, L = onda.length, h = h)
-
+    wall = Wall(length=h)
+    wall.set_wave(onda)
+    wall.calculate_deltah()
+    wall.calculate_deltap(rho=rho)
+    wall.calculate_p17(rho=rho)
+    wall.calculate_p58(rho=rho)
+    
     # CARGAS
-    x_p17 = solver_p17(deltap = deltap, deltah = deltah, H = onda.height, h = h)
-    x_p58 = solver_p58(deltah = deltah, H = onda.height)
-
-    fator_l = l_maxima *(x_lim_max/2)/x_p17
+    fator_l = l_maxima *(x_lim_max/2)/wall.p17
 
     # DESENHO DO CARREGAMENTO
     x_p3 = x_parede
     y_p3 = y_agua -altura_canva*(h_H + h_deltah)
-    x_p7 = x_parede + x_p17*fator_l
+    x_p7 = x_parede + wall.p17*fator_l
     y_p7 = y_agua
-    x_p4 = x_parede + deltap*fator_l
+    x_p4 = x_parede + wall.deltap*fator_l
     y_p4 = yS_solo
-    x_p6 = x_parede - deltap*fator_l
+    x_p6 = x_parede - wall.deltap*fator_l
     y_p6 = yS_solo
-    x_p8 = x_parede - x_p58*fator_l
+    x_p8 = x_parede - wall.p58*fator_l
     y_p8 = y_planomedio + h_H*altura_canva + 20
     x_p1 = x_parede
     y_p1 = y_agua
@@ -108,13 +109,13 @@ def coordenadas_canva(
         p1 = Point(l_maxima *(x_lim_max/4), y_planomedio),
         p2 = Point(l_maxima *(x_lim_max/4), y_agua)
     )
-    t_cota_deltah = [cota_deltah.p1.x - 5, (cota_deltah.p2.y + cota_deltah.p1.y)/2 , str(round(deltah,2))]
+    t_cota_deltah = [cota_deltah.p1.x - 5, (cota_deltah.p2.y + cota_deltah.p1.y)/2 , str(round(wall.deltah,2))]
     # COTA ALTURA DA PAREDE
     cota_h = Line(
         p1 = Point(l_maxima *(x_lim_max/4), y_agua),
         p2 = Point(l_maxima *(x_lim_max/4), yS_solo)
     )
-    t_cota_h = [cota_h.p1.x - 5, (cota_h.p2.y + cota_h.p1.y)/2, str(round(profundidade - (altura_onda-deltah),2))]
+    t_cota_h = [cota_h.p1.x - 5, (cota_h.p2.y + cota_h.p1.y)/2, str(round(profundidade - (altura_onda-wall.deltah),2))]
     # COTA ALTURA DA PAREDE + ONDA
     cota_onda = Line(
         p1 = Point(l_maxima *(x_lim_max/4), y_p3),
@@ -126,7 +127,7 @@ def coordenadas_canva(
         p1 = Point(l_maxima *(x_lim_max/4), y_agua),
         p2 = Point(l_maxima *(x_lim_max/4), y_p8)
     )
-    t_cota_58 = [cota_58.p1.x - 5, (cota_58.p2.y + cota_58.p1.y)/2, str(round((altura_onda-deltah),2))]
+    t_cota_58 = [cota_58.p1.x - 5, (cota_58.p2.y + cota_58.p1.y)/2, str(round((altura_onda-wall.deltah),2))]
 
     linha_58 = Line(
         p1 = Point(x_lim_min, y_p8),
@@ -137,10 +138,10 @@ def coordenadas_canva(
     t_agua = [x_lim_max - (8*4), y_agua -10, 'Água'] # x,y,text
     t_solo = [x_lim_max - (8*4), yS_solo -10 , 'Solo'] # x,y,text
     t_deltah = [plano_medio.p2.x - 60, plano_medio.p1.y -10 , 'Plano médio (Δℎ)'] # x,y,text
-    t_carga_17 = [x_p7 + 30 , y_p7 +20, str(round(x_p17, 2)) + ' kPa'] # x,y,text
-    t_carga_85 = [x_p8 - 30 , y_p8 +20, str(round(x_p58, 2)) + ' kPa'] # x,y,text
-    t_carga_base_e = [parede.p1.x - (parede.p1.x - x_p6)/2 , y_p6 -20, str(round(deltap, 2)) + ' kPa'] # x,y,text
-    t_carga_base_d = [parede.p1.x + (x_p4 - parede.p1.x)/2 , y_p4 -20, str(round(deltap, 2)) + ' kPa'] # x,y,text
+    t_carga_17 = [x_p7 + 30 , y_p7 +20, str(round(wall.p17/1000, 2)) + ' kPa'] # x,y,text
+    t_carga_85 = [x_p8 - 30 , y_p8 +20, str(round(wall.p58/1000, 2)) + ' kPa'] # x,y,text
+    t_carga_base_e = [parede.p1.x - (parede.p1.x - x_p6)/2 , y_p6 -20, str(round(wall.deltap/1000, 2)) + ' kPa'] # x,y,text
+    t_carga_base_d = [parede.p1.x + (x_p4 - parede.p1.x)/2 , y_p4 -20, str(round(wall.deltap/1000, 2)) + ' kPa'] # x,y,text
 
     textos = [t_agua, t_solo, t_deltah, t_carga_17, t_carga_85, t_carga_base_e, t_carga_base_d]
     textos_cotas = [t_cota_deltah, t_cota_h, t_cota_onda, t_cota_58]

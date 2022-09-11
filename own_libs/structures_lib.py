@@ -1,9 +1,9 @@
 from typing import List
-import sympy as sym
 #from waves_lib import OceanWave
 from .waves_lib import OceanWave
-from .gui_lib import Point, Line
+from .gui_lib import Point
 from .wave_pile_effect import *
+from .wave_wall_effect import *
 
 
 
@@ -103,3 +103,43 @@ class Pile:
             )
             loads.append( Point(x = i/factor, y = carga_ponto) )
         return(loads)
+
+
+class Wall:
+    wave: OceanWave
+    length: float # Length
+    
+    # Loads
+    deltah: float
+    deltap: float
+    p17: float
+    p58: float
+    
+    # Constructor
+    def __init__(self, length: float) -> None:
+        self.length = length
+    
+    # Recebe uma onda
+    def set_wave(self, wave: OceanWave) -> None:
+        self.wave = wave
+    
+    # Create wave
+    def create_wave(self, period: float, height: float) -> None:
+        self.wave = OceanWave(period=period, height=height)
+        self.wave.find_length(depth=self.length)
+    # Calcula o deltah (plano medio da onda)
+    def calculate_deltah(self) -> None:
+        deltah = solver_planomediodaonda(H=self.wave.height, L=self.wave.length, h=self.length)
+        self.deltah = deltah
+    # Calcula a variacao de pressao deltap em Pascal (Pa)
+    def calculate_deltap(self, rho: float, g: float = 9.81) -> None:
+        deltap = solver_deltap(H=self.wave.height, L=self.wave.length, rho=rho, g=g, h=self.length)
+        self.deltap = deltap
+    # Calcula a pressao no ponto 17
+    def calculate_p17(self, rho: float, g: float = 9.81) -> None:
+        p17 = solver_p17(deltap=self.deltap, deltah=self.deltah, rho=rho, g=g, H=self.wave.height, h=self.length)
+        self.p17 = p17
+    # Calcula a pressao no ponto 58
+    def calculate_p58(self, rho: float, g: float = 9.81) -> None:
+        p58 = solver_p58(deltah=self.deltah, rho=rho, g=g, H=self.wave.height)
+        self.p58 = p58

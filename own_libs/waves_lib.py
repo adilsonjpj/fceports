@@ -46,6 +46,7 @@ class OceanWave:
         length = solver_dispersao(T= self.period, h = depth, g = g)
         self.length = length
         self.k = (2*math.pi)/length
+        print('L = ' + str(self.length))
 
     # ENCONTRAR ETA (PAREDE)
     #def find_eta_wall(self) -> float:
