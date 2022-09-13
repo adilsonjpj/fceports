@@ -3,7 +3,7 @@ from operator import mod
 import tkinter as tk
 from turtle import color
 from efeito_onda_estaca import *
-from own_libs.gui_lib import *
+from libs.gui_lib import *
     
 app = tk.Tk()
 # Título da Janela

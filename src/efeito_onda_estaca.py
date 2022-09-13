@@ -1,5 +1,5 @@
-from own_libs.gui_lib import *
-from own_libs.structures_lib import *
+from libs.gui_lib import *
+from libs.structures_lib import *
 
 
 ############################################################################################

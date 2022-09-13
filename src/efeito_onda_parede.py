@@ -6,9 +6,9 @@ Created on Sat Jul  9 13:24:36 2022
 """
 
 #import sympy as sym
-from own_libs.waves_lib import OceanWave
-from own_libs.gui_lib import Point, Line
-from own_libs.structures_lib import Wall
+from libs.waves_lib import OceanWave
+from libs.gui_lib import Point, Line
+from libs.structures_lib import Wall
 
 ############################################################################################
 ## REPASSANDO OS VALORES CALCULADOS PARA A INTERFACE GRÁFICA
