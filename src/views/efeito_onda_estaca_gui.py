@@ -1,8 +1,7 @@
 ## BIBLIOTECAS ##
 from operator import mod
 import tkinter as tk
-from turtle import color
-from efeito_onda_estaca import *
+from .efeito_onda_estaca import *
 from libs.gui_lib import *
 
 def estaca_gui(win):    

@@ -1,7 +1,7 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-from efeito_onda_estaca_gui import estaca_gui
-from efeito_onda_parede_gui import parede_gui
+from views.estacas_gui import estacas_gui
+from views.obstaculos_gui import obstaculos_gui
 
 app = tk.Tk()
 # ICONE
@@ -51,10 +51,10 @@ statusbar.grid(row=10, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5
 btn_ondas = tk.Button(app, text = 'ONDAS')
 btn_ondas.grid(row=1, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
 # BOTAO PARA ESTACAS
-btn_estacas = tk.Button(app, text = 'ESTACAS', command=lambda:estaca_gui(app))
+btn_estacas = tk.Button(app, text = 'ESTACAS', command=lambda:estacas_gui(app))
 btn_estacas.grid(row=2, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
 # BOTAO PARA OBSTACULOS
-btn_obstaculos = tk.Button(app, text = 'OBSTACULOS', command=lambda:parede_gui(app))
+btn_obstaculos = tk.Button(app, text = 'OBSTACULOS', command=lambda:obstaculos_gui(app))
 btn_obstaculos.grid(row=3, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
 # BOTAO PARA ATRACAÇÃO
 btn_calculate = tk.Button(app, text = 'ATRACAÇÃO')
