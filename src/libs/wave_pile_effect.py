@@ -251,3 +251,21 @@ def solver_momento_inercia_sm(
         ( 1 + ((1-sym.cosh(k*h)) / (k*h*sym.sinh(k*h)))) - sm
         , v
     ))
+
+
+##################################
+##################################
+######### ARREBENTACAO ###########
+##################################
+##################################
+def solver_forca_onda_arrebentacao_estaca(
+    v=1,
+    Fb = sym.Symbol('Fb'),
+    gamma_agua = sym.Symbol('𝛾𝑤'),
+    CD = sym.Symbol('CD'),
+    D = sym.Symbol('D'),
+    Hb = sym.Symbol('Hb')):
+    return(sym.solvers.nsolve(
+        (CD * 0.5 * gamma_agua * D * (Hb**2)) - Fb
+        , v
+    ))

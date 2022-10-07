@@ -1,10 +1,9 @@
 ## BIBLIOTECAS ##
-from operator import mod
 import tkinter as tk
-from .efeito_onda_parede import *
+from libs.currents_lib import solver_impulso_lateral
 from PIL import Image, ImageTk
 
-def arrebentacao_parede_gui(win):    
+def impulso_lateral_gui(win):    
     app = tk.Toplevel(win)    
 
     app.title("FCEPORTS")
@@ -33,7 +32,7 @@ def arrebentacao_parede_gui(win):
     # TITULO EM CIMA DO SOFTWARE
     lbl_title = tk.Label(
         app, 
-        text = 'FORÇA EXERCIDA POR ONDAS NA ARREBENTAÇÃO EM OBSTACULOS',
+        text = 'IMPULSO LATERAL NA ESTACA',
         font = ('Times New Roman', 17, 'bold')
         )
     lbl_title.grid(
@@ -48,41 +47,55 @@ def arrebentacao_parede_gui(win):
     # PARAMETROS A SEREM INFORMADOS
     lbl_paramentros_local = tk.Label(
         app, 
-        text = 'PARÂMETROS DA ESTACA E DO LOCAL',
+        text = 'PARÂMETROS',
         font = ('Times New Roman', 11, 'bold')
         )
     lbl_paramentros_local.grid(row=1, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     #### LOCAL E ESTACA
     #### COMECA NA LINHA 2
-    # Coeficiente de arrasto Cp
-    lbl_cp = tk.Label(app, text = 'Cp')
-    lbl_cp.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_cp = tk.Entry(app, width=20)
-    ety_cp.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
+    # Ck
+    lbl_Ck = tk.Label(app, text = 'Ck')
+    lbl_Ck.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_Ck = tk.Entry(app, width=20)
+    ety_Ck.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
 
     # rho 3
-    lbl_rho = tk.Label(app, text = '𝜌 (kg/m³)')
+    lbl_rho = tk.Label(app, text = 'rho (kg/m³)')
     lbl_rho.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
     ety_rho = tk.Entry(app, width=20)
     ety_rho.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
-
-    # D 4
-    lbl_ds = tk.Label(app, text = 'ds (m)')
-    lbl_ds.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_ds = tk.Entry(app, width=20)
-    ety_ds.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
+    # Uo 4
+    lbl_Uo = tk.Label(app, text = 'Uo (m/s)')
+    lbl_Uo.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_Uo = tk.Entry(app, width=20)
+    ety_Uo.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
+    # D 5
+    lbl_D = tk.Label(app, text = 'D (m)')
+    lbl_D.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_D = tk.Entry(app, width=20)
+    ety_D.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
+    # fk 6
+    lbl_fk = tk.Label(app, text = 'fk (m)')
+    lbl_fk.grid(row=6, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_fk = tk.Entry(app, width=20)
+    ety_fk.grid(row=6, column=1, padx=10, pady=5, sticky=tk.N)
+    # t 7
+    lbl_t = tk.Label(app, text = 't (s)')
+    lbl_t.grid(row=7, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_t = tk.Entry(app, width=20)
+    ety_t.grid(row=7, column=1, padx=10, pady=5, sticky=tk.N)
 
     # Hb 5
-    lbl_hb = tk.Label(app, text = 'Hb (m)')
-    lbl_hb.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_hb = tk.Entry(app, width=20)
-    ety_hb.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
+    #lbl_hb = tk.Label(app, text = 'Hb (m)')
+    #lbl_hb.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    #ety_hb = tk.Entry(app, width=20)
+    #ety_hb.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
 
     ###############################################################################
     ###############################################################################
     # STATUS BAR
     statusbar = tk.Label(app, text="Criado por Adilson José Pereira Junior <adilsonjpj@protonmail.com>", bd=1, relief=tk.SUNKEN)
-    statusbar.grid(row=7, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
+    statusbar.grid(row=10, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     ###############################################################################
     # DESENHO DA ESTACA
     frm_drawning = tk.Frame(
@@ -97,12 +110,12 @@ def arrebentacao_parede_gui(win):
     canva_largura = 700
     canva_altura = 250
 
-    lbl_norma = tk.Label(
-        frm_drawning, 
-        text = 'ASCE 07-2010',
-        font = ('Times New Roman', 17, 'bold')
-        )
-    lbl_norma.pack(side = tk.TOP)
+    #lbl_norma = tk.Label(
+    #    frm_drawning, 
+    #    text = 'ASCE 07-2010',
+    #    font = ('Times New Roman', 17, 'bold')
+    #    )
+    #lbl_norma.pack(side = tk.TOP)
 
     canva_equacao = tk.Canvas(
         frm_drawning,
@@ -114,27 +127,29 @@ def arrebentacao_parede_gui(win):
 
     lbl_resultado = tk.Label(
         frm_drawning, 
-        text = 'Ft = ',
+        text = 'L = ',
         font = ('Times New Roman', 20, 'bold')
         )
     lbl_resultado.pack(side = tk.TOP)
 
-    image = Image.open("img/equacao_arrebentacao_obstaculo.png")
-    image = image.resize((680,63), Image.ANTIALIAS)
+    image = Image.open("img/equacao_impulso_lateral.png")
+    image = image.resize((680,44), Image.ANTIALIAS)
     pic = ImageTk.PhotoImage(image)
     #img = tk.PhotoImage(file="")      
     canva_equacao.create_image(350,125, anchor=tk.CENTER, image=pic)      
  
     def draw_results():
-        cp = float(ety_cp.get())
+        Ck = float(ety_fk.get())
         rho = float(ety_rho.get())
-        ds = float(ety_ds.get())
-        #hb = float(ety_hb.get())
-        Ft = rho * 9.81 * (ds**2) * (cp*1.1 + 2.4)
-        lbl_resultado.configure(text='Ft = ' + str(round(Ft/1000, 2)) + ' kN/m')
+        Uo = float(ety_Uo.get())
+        D = float(ety_D.get())
+        fk = float(ety_fk.get())
+        t = float(ety_t.get())
+        L = solver_impulso_lateral(Ck=Ck, rho=rho, Uo=Uo, D=D, fk=fk, t=t)
+        lbl_resultado.configure(text='L = ' + str(round(L, 2)))
 
     ###############################################################################
     # BOTAO PARA CALCULAR
     btn_calculate = tk.Button(app, text = 'CALCULAR', command=draw_results)
-    btn_calculate.grid(row=6, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
+    btn_calculate.grid(row=9, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     app.mainloop()

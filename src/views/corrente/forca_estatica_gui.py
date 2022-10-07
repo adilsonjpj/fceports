@@ -1,17 +1,17 @@
 ## BIBLIOTECAS ##
-from operator import mod
 import tkinter as tk
-from .efeito_onda_estaca import *
-from libs.gui_lib import *
+from libs.currents_lib import solver_forca_corrente_estaca
 from PIL import Image, ImageTk
 
-def arrebentacao_estaca_gui(win):    
-    app = tk.Toplevel(win)
-    # Título da Janela
+def forca_estatica_gui(win):    
+    app = tk.Toplevel(win)    
+
     app.title("FCEPORTS")
     # Tamanho da Janela
     #app.geometry("800x600")
+
     # Não deixo ela ser redimensionada
+
     app.resizable(
         width=False,
         height=False
@@ -32,7 +32,7 @@ def arrebentacao_estaca_gui(win):
     # TITULO EM CIMA DO SOFTWARE
     lbl_title = tk.Label(
         app, 
-        text = 'FORÇA EXERCIDA POR ONDAS NA ARREBENTAÇÃO EM ESTACAS',
+        text = 'FORÇA ESTÁTICA',
         font = ('Times New Roman', 17, 'bold')
         )
     lbl_title.grid(
@@ -47,35 +47,40 @@ def arrebentacao_estaca_gui(win):
     # PARAMETROS A SEREM INFORMADOS
     lbl_paramentros_local = tk.Label(
         app, 
-        text = 'PARÂMETROS DA ESTACA E DO LOCAL',
+        text = 'PARÂMETROS',
         font = ('Times New Roman', 11, 'bold')
         )
     lbl_paramentros_local.grid(row=1, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     #### LOCAL E ESTACA
     #### COMECA NA LINHA 2
-    # Coeficiente de arrasto CD
-    lbl_cd = tk.Label(app, text = 'CD')
-    lbl_cd.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_cd = tk.Entry(app, width=20)
-    ety_cd.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
+    # CD
+    lbl_CD = tk.Label(app, text = 'CD')
+    lbl_CD.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_CD = tk.Entry(app, width=20)
+    ety_CD.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
 
     # rho 3
-    lbl_rho = tk.Label(app, text = '𝜌 (kg/m³)')
+    lbl_rho = tk.Label(app, text = 'rho (m/s)')
     lbl_rho.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
     ety_rho = tk.Entry(app, width=20)
     ety_rho.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
 
+    # Uo 4
+    lbl_Uo = tk.Label(app, text = 'Uo (m/s)')
+    lbl_Uo.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_Uo = tk.Entry(app, width=20)
+    ety_Uo.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
     # D 4
-    lbl_diametro = tk.Label(app, text = 'Diametro (m)')
-    lbl_diametro.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_diametro = tk.Entry(app, width=20)
-    ety_diametro.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
+    lbl_D = tk.Label(app, text = 'D (m)')
+    lbl_D.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_D = tk.Entry(app, width=20)
+    ety_D.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
 
     # Hb 5
-    lbl_hb = tk.Label(app, text = 'Hb (m)')
-    lbl_hb.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_hb = tk.Entry(app, width=20)
-    ety_hb.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
+    #lbl_hb = tk.Label(app, text = 'Hb (m)')
+    #lbl_hb.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    #ety_hb = tk.Entry(app, width=20)
+    #ety_hb.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
 
     ###############################################################################
     ###############################################################################
@@ -96,12 +101,12 @@ def arrebentacao_estaca_gui(win):
     canva_largura = 700
     canva_altura = 250
 
-    lbl_norma = tk.Label(
-        frm_drawning, 
-        text = 'ASCE 07-2010',
-        font = ('Times New Roman', 17, 'bold')
-        )
-    lbl_norma.pack(side = tk.TOP)
+    #lbl_norma = tk.Label(
+    #    frm_drawning, 
+    #    text = 'ASCE 07-2010',
+    #    font = ('Times New Roman', 17, 'bold')
+    #    )
+    #lbl_norma.pack(side = tk.TOP)
 
     canva_equacao = tk.Canvas(
         frm_drawning,
@@ -113,24 +118,24 @@ def arrebentacao_estaca_gui(win):
 
     lbl_resultado = tk.Label(
         frm_drawning, 
-        text = 'Fb = ',
+        text = 'FD = ',
         font = ('Times New Roman', 20, 'bold')
         )
     lbl_resultado.pack(side = tk.TOP)
 
-    image = Image.open("img/equacao_arrebentacao_estaca.png")
-    image = image.resize((680,67), Image.ANTIALIAS)
+    image = Image.open("img/equacao_corrente_estaca.png")
+    image = image.resize((680,70), Image.ANTIALIAS)
     pic = ImageTk.PhotoImage(image)
     #img = tk.PhotoImage(file="")      
     canva_equacao.create_image(350,125, anchor=tk.CENTER, image=pic)      
  
     def draw_results():
-        cd = float(ety_cd.get())
+        CD = float(ety_CD.get())
         rho = float(ety_rho.get())
-        D = float(ety_diametro.get())
-        hb = float(ety_hb.get())
-        Fb = cd * 0.5 * rho * 9.81 * D * (hb**2)
-        lbl_resultado.configure(text='Fb = ' + str(round(Fb/1000, 2)) + ' kN*m/m')
+        Uo = float(ety_Uo.get())
+        D = float(ety_D.get())
+        FD = solver_forca_corrente_estaca(CD=CD, rho=rho, Uo=Uo, D=D)
+        lbl_resultado.configure(text='FD = ' + str(round(FD, 2)))
 
     ###############################################################################
     # BOTAO PARA CALCULAR

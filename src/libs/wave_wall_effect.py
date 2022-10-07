@@ -65,13 +65,12 @@ def solver_p58(
         , v
     ))
 
-def forca_onda_arrebentacao_parede(
+def solver_forca_onda_arrebentacao_parede(
     v=1,
     Ft = sym.Symbol('Ft'),
     Cp = sym.Symbol('Cp'),
     gama_agua = sym.Symbol('𝛾w'),
-    ds = sym.Symbol('ds'),
-    Hb = sym.Symbol('Hb')):
+    ds = sym.Symbol('ds')):
     return(sym.solvers.nsolve(
         ( (1.1 * Cp * gama_agua * (ds**2)) + (2.4 * gama_agua * (ds**2) )) - Ft
         , v

@@ -1,8 +1,7 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-#from .atracacao. import 
 
-def atracacao_gui(win):
+def defensas_gui(win):    
     app = tk.Toplevel(win)    
     app.title("FCEPORTS")
     # Não deixo ela ser redimensionada
@@ -23,7 +22,7 @@ def atracacao_gui(win):
     # TITULO EM CIMA DO SOFTWARE
     lbl_title = tk.Label(
         app, 
-        text = 'ESFORÇOS NA ATRACAÇÃO',
+        text = 'DIMENSIONAMENTO DE DEFENSAS',
         font = ('Times New Roman', 15, 'bold')
         )
     lbl_title.grid(
