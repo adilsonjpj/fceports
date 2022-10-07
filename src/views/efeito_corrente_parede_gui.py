@@ -2,7 +2,7 @@
 from operator import mod
 import tkinter as tk
 from .efeito_onda_parede import *
-def onda_parede_gui(win):    
+def corrente_parede_gui(win):    
     app = tk.Toplevel(win)    
 
     app.title("FCEPORTS")

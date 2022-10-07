@@ -4,7 +4,7 @@ import tkinter as tk
 from .efeito_onda_estaca import *
 from libs.gui_lib import *
 
-def onda_estaca_gui(win):    
+def corrente_estaca_gui(win):    
     app = tk.Toplevel(win)
     # Título da Janela
     app.title("FCEPORTS")
