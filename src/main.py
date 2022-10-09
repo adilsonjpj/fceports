@@ -7,9 +7,6 @@ from views.estacas_gui import estacas_gui
 from views.obstaculos_gui import obstaculos_gui
 from views.ondas_gui import ondas_gui
 
-
-
-
 app = tk.Tk()
 # ICONE
 icn = tk.PhotoImage(file='fceports.png')
