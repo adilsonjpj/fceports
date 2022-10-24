@@ -1,3 +1,5 @@
+import sympy as sym
+import math
 ###################################
 ### PIANC 2002 Energia Cinética ###
 ###################################
@@ -114,7 +116,7 @@ def solver_cc_est_aberta():
 ###################################
 
 def solver_forca_fluido(
-    v=1,
+    guess=1,
     F = sym.Symbol('F'),
     Cf = sym.Symbol('Cf'),
     rho = sym.Symbol('𝜌'),
@@ -122,7 +124,7 @@ def solver_forca_fluido(
     A = sym.Symbol('A')):
     return(sym.solvers.nsolve(
         (Cf * 0.5 * rho * (v**2) * A) - F
-        , v
+        , guess
     ))
 
 ###################################

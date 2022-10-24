@@ -1,7 +1,7 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-from .efeito_ondas.efeito_onda_estaca_gui import onda_estaca_gui
-from .arrebentacao.efeito_arrebentacao_estaca_gui import arrebentacao_estaca_gui
+from views.efeito_ondas.efeito_onda_estaca_max_gui import onda_estaca_max_gui
+from views.arrebentacao.efeito_arrebentacao_estaca_gui import arrebentacao_estaca_gui
 
 def estacas_gui(win):    
     app = tk.Toplevel(win)    
@@ -41,7 +41,7 @@ def estacas_gui(win):
     statusbar.grid(row=10, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     ###############################################################################
     # BOTAO PARA ONDAS
-    btn_ondas = tk.Button(app, text = 'ONDAS', command=lambda:onda_estaca_gui(app))
+    btn_ondas = tk.Button(app, text = 'ONDAS - MAXIMOS', command=lambda:onda_estaca_max_gui(app))
     btn_ondas.grid(row=1, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA ARREBENTACAO
     btn_arrebentacao = tk.Button(app, text = 'ZONA DE ARREBENTAÇÃO', command=lambda:arrebentacao_estaca_gui(app))

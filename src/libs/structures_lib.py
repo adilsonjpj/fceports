@@ -1,9 +1,9 @@
 from typing import List
 #from waves_lib import OceanWave
-from .waves_lib import OceanWave
-from .gui_lib import Point
-from .wave_pile_effect import *
-from .wave_wall_effect import *
+from libs.waves_lib import OceanWave
+from libs.gui_lib import Point
+from libs.wave_pile_effect import *
+from libs.wave_wall_effect import *
 
 
 

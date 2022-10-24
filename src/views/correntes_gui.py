@@ -1,13 +1,13 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-from corrente.strouhal_gui import strouhal_gui
-from corrente.reynolds_gui import reynolds_gui
-from corrente.forca_estatica_gui import forca_estatica_gui
-from corrente.impulso_lateral_gui import impulso_lateral_gui
-from corrente.velocidade_critica_gui import velocidade_critica_gui
-from corrente.coeficiente_amortecimento_gui import coeficiente_amortecimento_gui
-from corrente.massa_efetiva_gui import massa_efetiva_gui
-from corrente.frequencia_natural_gui import frequencia_natural_gui
+from views.corrente.strouhal_gui import strouhal_gui
+from views.corrente.reynolds_gui import reynolds_gui
+from views.corrente.forca_estatica_gui import forca_estatica_gui
+from views.corrente.impulso_lateral_gui import impulso_lateral_gui
+from views.corrente.velocidade_critica_gui import velocidade_critica_gui
+from views.corrente.coeficiente_amortecimento_gui import coeficiente_amortecimento_gui
+from views.corrente.massa_efetiva_gui import massa_efetiva_gui
+from views.corrente.frequencia_natural_gui import frequencia_natural_gui
 
 def correntes_gui(win):    
     app = tk.Toplevel(win)    

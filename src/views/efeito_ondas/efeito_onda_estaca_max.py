@@ -85,13 +85,13 @@ def coordenadas_canva(
         p1 = Point(l_maxima *(x_lim_max/2), yS_solo - ((yS_solo - y_agua)*sm)),
         p2 = Point(l_maxima *(x_lim_max/2), yS_solo)
     )
-    t_cota_inercia = [cota_inercia.p1.x - 5, (cota_inercia.p2.y + cota_inercia.p1.y)/2, str(round((sm * estaca.length),2))]
+    t_cota_inercia = [cota_inercia.p1.x - 5, (cota_inercia.p2.y + cota_inercia.p1.y)/2, str(round((sm * estaca.length),2)) + 'm']
     # COTA ARRASTE
     cota_arraste = Line(
         p1 = Point(l_maxima *(x_lim_max/2), yS_solo- ((yS_solo - y_agua)*sd)),
         p2 = Point(l_maxima *(x_lim_max/2), yS_solo)
     )
-    t_cota_arraste = [cota_arraste.p1.x - 5, (cota_arraste.p2.y + cota_arraste.p1.y)/2 , str(round((sd * estaca.length),2))]
+    t_cota_arraste = [cota_arraste.p1.x - 5, (cota_arraste.p2.y + cota_arraste.p1.y)/2 , str(round((sd * estaca.length),2)) + 'm']
 
 
     # DESENHO DO CARREGAMENTO

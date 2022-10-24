@@ -13,8 +13,22 @@ import math
 ### Necessário especificar todos -1 parâmetro a ser obtido
 ### A exatidão dos resultado pode variar de acordo com o v, pois é função do nsolve
 # Exemplo de uso: solver_dispersao(T=5,h=1)
-def solver_dispersao(v=1,L = sym.Symbol('L'),T= sym.Symbol('T'),h = sym.Symbol('h'),g = 9.81) -> float:
-    return(round((sym.solvers.nsolve(g*(2*sym.pi/L)*sym.tanh(h*(2*sym.pi/L)) - ((2*sym.pi/T)**2), v)),3))
+def solver_dispersao(
+    v=1,
+    L = sym.Symbol('L'),
+    T= sym.Symbol('T'),
+    h = sym.Symbol('h'),
+    g = 9.81) -> float:
+    return(
+        round(
+            (sym.solvers.nsolve(
+                g*(2*sym.pi/L)*
+                sym.tanh(h*(2*sym.pi/L)) 
+                - ((2*sym.pi/T)**2), v)
+                )
+                ,3
+            )
+        )
 
 ### Equação para a velocidade de grupo
 ### Retorna diretamente a velocidade de grupo

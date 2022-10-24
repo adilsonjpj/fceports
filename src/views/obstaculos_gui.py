@@ -1,7 +1,7 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-from .efeito_ondas.efeito_onda_parede_gui import onda_parede_gui
-from .arrebentacao.efeito_arrebentacao_parede_gui import arrebentacao_parede_gui
+from views.efeito_ondas.efeito_onda_parede_gui import onda_parede_gui
+from views.arrebentacao.efeito_arrebentacao_parede_gui import arrebentacao_parede_gui
 
 def obstaculos_gui(win):    
     app = tk.Toplevel(win)    

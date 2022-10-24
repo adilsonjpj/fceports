@@ -1,7 +1,7 @@
 ## BIBLIOTECAS ##
 from operator import mod
 import tkinter as tk
-from .efeito_onda_parede import *
+from views.efeito_ondas.efeito_onda_parede import *
 def onda_parede_gui(win):    
     app = tk.Toplevel(win)    
 

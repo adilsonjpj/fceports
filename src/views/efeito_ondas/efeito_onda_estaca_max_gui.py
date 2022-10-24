@@ -1,10 +1,10 @@
 ## BIBLIOTECAS ##
 from operator import mod
 import tkinter as tk
-from .efeito_onda_estaca import *
+from views.efeito_ondas.efeito_onda_estaca_max import *
 from libs.gui_lib import *
 
-def onda_estaca_gui(win):    
+def onda_estaca_max_gui(win):    
     app = tk.Toplevel(win)
     # Título da Janela
     app.title("FCEPORTS")

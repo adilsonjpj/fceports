@@ -109,25 +109,25 @@ def coordenadas_canva(
         p1 = Point(l_maxima *(x_lim_max/4), y_planomedio),
         p2 = Point(l_maxima *(x_lim_max/4), y_agua)
     )
-    t_cota_deltah = [cota_deltah.p1.x - 5, (cota_deltah.p2.y + cota_deltah.p1.y)/2 , str(round(wall.deltah,2))]
+    t_cota_deltah = [cota_deltah.p1.x - 5, (cota_deltah.p2.y + cota_deltah.p1.y)/2 , str(round(wall.deltah,2)) + 'm']
     # COTA ALTURA DA PAREDE
     cota_h = Line(
         p1 = Point(l_maxima *(x_lim_max/4), y_agua),
         p2 = Point(l_maxima *(x_lim_max/4), yS_solo)
     )
-    t_cota_h = [cota_h.p1.x - 5, (cota_h.p2.y + cota_h.p1.y)/2, str(round(profundidade - (altura_onda-wall.deltah),2))]
+    t_cota_h = [cota_h.p1.x - 5, (cota_h.p2.y + cota_h.p1.y)/2, str(round(profundidade - (altura_onda-wall.deltah),2)) + 'm']
     # COTA ALTURA DA PAREDE + ONDA
     cota_onda = Line(
         p1 = Point(l_maxima *(x_lim_max/4), y_p3),
         p2 = Point(l_maxima *(x_lim_max/4), y_planomedio)
     )
-    t_cota_onda = [cota_onda.p1.x - 5, (cota_onda.p2.y + cota_onda.p1.y)/2, str(round((altura_onda),2))]
+    t_cota_onda = [cota_onda.p1.x - 5, (cota_onda.p2.y + cota_onda.p1.y)/2, str(round((altura_onda),2)) + 'm']
     # COTA ALTURA DA PAREDE + ONDA
     cota_58 = Line(
         p1 = Point(l_maxima *(x_lim_max/4), y_agua),
         p2 = Point(l_maxima *(x_lim_max/4), y_p8)
     )
-    t_cota_58 = [cota_58.p1.x - 5, (cota_58.p2.y + cota_58.p1.y)/2, str(round((altura_onda-wall.deltah),2))]
+    t_cota_58 = [cota_58.p1.x - 5, (cota_58.p2.y + cota_58.p1.y)/2, str(round((altura_onda-wall.deltah),2)) + 'm']
 
     linha_58 = Line(
         p1 = Point(x_lim_min, y_p8),

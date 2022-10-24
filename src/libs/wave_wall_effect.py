@@ -20,7 +20,12 @@ def solver_planomediodaonda(
         , v
     ))
 
-def solver_variacaodepressao(v=1, deltap = sym.Symbol('Δp'), H = sym.Symbol('H'),L= sym.Symbol('L'),h = sym.Symbol('h')):
+def solver_variacaodepressao(
+    v=1, 
+    deltap = sym.Symbol('Δp'),
+    H = sym.Symbol('H'),
+    L= sym.Symbol('L'),
+    h = sym.Symbol('h')):
     return(sym.solvers.nsolve(
         ( H / sym.cosh((2*sym.pi*h)/L)) - deltap
         , v
