@@ -60,7 +60,7 @@ def forca_estatica_gui(win):
     ety_CD.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
 
     # rho 3
-    lbl_rho = tk.Label(app, text = 'rho (m/s)')
+    lbl_rho = tk.Label(app, text = 'ρ (m/s)')
     lbl_rho.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
     ety_rho = tk.Entry(app, width=20)
     ety_rho.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)

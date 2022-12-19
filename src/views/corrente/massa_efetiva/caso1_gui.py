@@ -1,9 +1,9 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-from libs.currents_lib import solver_coeficiente_amortecimento
+from libs.dynamics_lib import solver_engastada_engastada
 from PIL import Image, ImageTk
 
-def coeficiente_amortecimento_gui(win):    
+def caso1_gui(win):    
     app = tk.Toplevel(win)    
 
     app.title("FCEPORTS")
@@ -32,7 +32,7 @@ def coeficiente_amortecimento_gui(win):
     # TITULO EM CIMA DO SOFTWARE
     lbl_title = tk.Label(
         app, 
-        text = 'COEFICIÊNTE DE AMORTECIMENTO',
+        text = 'MASSA EFETIVA - ENGASTADA-ENGASTADA',
         font = ('Times New Roman', 17, 'bold')
         )
     lbl_title.grid(
@@ -53,35 +53,29 @@ def coeficiente_amortecimento_gui(win):
     lbl_paramentros_local.grid(row=1, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     #### LOCAL E ESTACA
     #### COMECA NA LINHA 2
-    # M
-    lbl_m = tk.Label(app, text = 'm')
-    lbl_m.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_m = tk.Entry(app, width=20)
-    ety_m.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
+    # mL
+    lbl_mL = tk.Label(app, text = 'mL (kg/m)')
+    lbl_mL.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_mL = tk.Entry(app, width=20)
+    ety_mL.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
 
-    # delta 3
-    lbl_delta = tk.Label(app, text = '∆')
-    lbl_delta.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_delta = tk.Entry(app, width=20)
-    ety_delta.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
+    # L 3
+    lbl_L = tk.Label(app, text = 'Comprimento (m)')
+    lbl_L.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_L = tk.Entry(app, width=20)
+    ety_L.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
 
-    # rho 4
-    lbl_rho = tk.Label(app, text = 'ρ (kg/m³)')
-    lbl_rho.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_rho = tk.Entry(app, width=20)
-    ety_rho.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
+    # l 4
+    lbl_superior = tk.Label(app, text = 'L')
+    lbl_superior.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_superior = tk.Entry(app, width=20)
+    ety_superior.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
 
-    # D 5
-    lbl_D = tk.Label(app, text = 'D (m)')
-    lbl_D.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_D = tk.Entry(app, width=20)
-    ety_D.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
-
-    # Hb 5
-    #lbl_hb = tk.Label(app, text = 'Hb (m)')
-    #lbl_hb.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    #ety_hb = tk.Entry(app, width=20)
-    #ety_hb.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
+    # l 5
+    lbl_inferior = tk.Label(app, text = 'l')
+    lbl_inferior.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
+    ety_inferior = tk.Entry(app, width=20)
+    ety_inferior.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
 
     ###############################################################################
     ###############################################################################
@@ -119,24 +113,24 @@ def coeficiente_amortecimento_gui(win):
 
     lbl_resultado = tk.Label(
         frm_drawning, 
-        text = 'CA = ',
+        text = 'm = ',
         font = ('Times New Roman', 20, 'bold')
         )
     lbl_resultado.pack(side = tk.TOP)
 
-    image = Image.open("img/equacao_coeficiente_amortecimento.png")
-    image = image.resize((680,240), Image.ANTIALIAS)
+    image = Image.open("img/equacao_massa_efetiva.png")
+    image = image.resize((680,205), Image.ANTIALIAS)
     pic = ImageTk.PhotoImage(image)
     #img = tk.PhotoImage(file="")      
     canva_equacao.create_image(350,125, anchor=tk.CENTER, image=pic)      
  
     def draw_results():
-        m = float(ety_m.get())
-        delta = float(ety_delta.get())
-        rho = float(ety_rho.get())
-        D = float(ety_D.get())
-        CA = solver_coeficiente_amortecimento(m=m, delta=delta, rho=rho, D=D)
-        lbl_resultado.configure(text='CA = ' + str(round(CA, 2)))
+        mL = float(ety_mL.get())
+        L = float(ety_L.get())
+        superior = float(ety_superior.get())
+        inferior = float(ety_inferior.get())
+        m = solver_engastada_engastada(mL=mL, L=L, superior=superior, inferior=inferior)
+        lbl_resultado.configure(text='m = ' + str(m))
 
     ###############################################################################
     # BOTAO PARA CALCULAR

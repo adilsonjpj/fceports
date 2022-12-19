@@ -54,7 +54,7 @@ def reynolds_gui(win):
     #### LOCAL E ESTACA
     #### COMECA NA LINHA 2
     # nu
-    lbl_nu = tk.Label(app, text = 'v (m²/s)')
+    lbl_nu = tk.Label(app, text = 'ν (m²/s)')
     lbl_nu.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
     ety_nu = tk.Entry(app, width=20)
     ety_nu.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)

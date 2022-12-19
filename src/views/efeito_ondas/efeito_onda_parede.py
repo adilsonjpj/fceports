@@ -83,22 +83,22 @@ def coordenadas_canva(
     wall.set_wave(onda)
     wall.calculate_deltah()
     wall.calculate_deltap(rho=rho)
-    wall.calculate_p17(rho=rho)
-    wall.calculate_p58(rho=rho)
+    wall.calculate_p1(rho=rho)
+    wall.calculate_p2(rho=rho)
     
     # CARGAS
-    fator_l = l_maxima *(x_lim_max/2)/wall.p17
+    fator_l = l_maxima *(x_lim_max/2)/wall.p1
 
     # DESENHO DO CARREGAMENTO
     x_p3 = x_parede
     y_p3 = y_agua -altura_canva*(h_H + h_deltah)
-    x_p7 = x_parede + wall.p17*fator_l
+    x_p7 = x_parede + wall.p1*fator_l
     y_p7 = y_agua
     x_p4 = x_parede + wall.deltap*fator_l
     y_p4 = yS_solo
     x_p6 = x_parede - wall.deltap*fator_l
     y_p6 = yS_solo
-    x_p8 = x_parede - wall.p58*fator_l
+    x_p8 = x_parede - wall.p2*fator_l
     y_p8 = y_planomedio + h_H*altura_canva + 20
     x_p1 = x_parede
     y_p1 = y_agua
@@ -138,8 +138,8 @@ def coordenadas_canva(
     t_agua = [x_lim_max - (8*4), y_agua -10, 'Água'] # x,y,text
     t_solo = [x_lim_max - (8*4), yS_solo -10 , 'Solo'] # x,y,text
     t_deltah = [plano_medio.p2.x - 60, plano_medio.p1.y -10 , 'Plano médio (Δℎ)'] # x,y,text
-    t_carga_17 = [x_p7 + 30 , y_p7 +20, str(round(wall.p17/1000, 2)) + ' kPa'] # x,y,text
-    t_carga_85 = [x_p8 - 30 , y_p8 +20, str(round(wall.p58/1000, 2)) + ' kPa'] # x,y,text
+    t_carga_17 = [x_p7 + 30 , y_p7 +20, str(round(wall.p1/1000, 2)) + ' kPa'] # x,y,text
+    t_carga_85 = [x_p8 - 30 , y_p8 +20, str(round(wall.p2/1000, 2)) + ' kPa'] # x,y,text
     t_carga_base_e = [parede.p1.x - (parede.p1.x - x_p6)/2 , y_p6 -20, str(round(wall.deltap/1000, 2)) + ' kPa'] # x,y,text
     t_carga_base_d = [parede.p1.x + (x_p4 - parede.p1.x)/2 , y_p4 -20, str(round(wall.deltap/1000, 2)) + ' kPa'] # x,y,text
 

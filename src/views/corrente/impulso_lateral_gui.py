@@ -60,7 +60,7 @@ def impulso_lateral_gui(win):
     ety_Ck.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
 
     # rho 3
-    lbl_rho = tk.Label(app, text = 'rho (kg/m³)')
+    lbl_rho = tk.Label(app, text = 'ρ (kg/m³)')
     lbl_rho.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
     ety_rho = tk.Entry(app, width=20)
     ety_rho.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
@@ -75,7 +75,7 @@ def impulso_lateral_gui(win):
     ety_D = tk.Entry(app, width=20)
     ety_D.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
     # fk 6
-    lbl_fk = tk.Label(app, text = 'fk (m)')
+    lbl_fk = tk.Label(app, text = 'fk (1/s)')
     lbl_fk.grid(row=6, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
     ety_fk = tk.Entry(app, width=20)
     ety_fk.grid(row=6, column=1, padx=10, pady=5, sticky=tk.N)

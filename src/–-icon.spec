@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['main.py'],
+a = Analysis(['–-icon', 'fceports.ico', 'FCEPORTS.py'],
              pathex=[],
              binaries=[],
              datas=[],
@@ -26,7 +26,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,  
           [],
-          name='main',
+          name='–-icon',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -37,4 +37,4 @@ exe = EXE(pyz,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
-          entitlements_file=None , icon='fceports.ico')
+          entitlements_file=None )

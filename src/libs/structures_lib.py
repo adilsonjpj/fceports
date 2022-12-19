@@ -4,6 +4,7 @@ from libs.waves_lib import OceanWave
 from libs.gui_lib import Point
 from libs.wave_pile_effect import *
 from libs.wave_wall_effect import *
+import mpmath as mp
 
 
 
@@ -112,8 +113,8 @@ class Wall:
     # Loads
     deltah: float
     deltap: float
-    p17: float
-    p58: float
+    p1: float
+    p2: float
     
     # Constructor
     def __init__(self, length: float) -> None:
@@ -129,17 +130,17 @@ class Wall:
         self.wave.find_length(depth=self.length)
     # Calcula o deltah (plano medio da onda)
     def calculate_deltah(self) -> None:
-        deltah = solver_planomediodaonda(H=self.wave.height, L=self.wave.length, h=self.length)
+        deltah = ((mp.pi*self.wave.height**2)/self.wave.length) * mp.coth((2*mp.pi*self.length)/self.wave.length)
         self.deltah = deltah
     # Calcula a variacao de pressao deltap em Pascal (Pa)
     def calculate_deltap(self, rho: float, g: float = 9.81) -> None:
-        deltap = solver_deltap(H=self.wave.height, L=self.wave.length, rho=rho, g=g, h=self.length)
+        deltap = (rho*g*self.wave.height) / mp.cosh((2*mp.pi*self.length)/self.wave.length)
         self.deltap = deltap
-    # Calcula a pressao no ponto 17
-    def calculate_p17(self, rho: float, g: float = 9.81) -> None:
-        p17 = solver_p17(deltap=self.deltap, deltah=self.deltah, rho=rho, g=g, H=self.wave.height, h=self.length)
-        self.p17 = p17
-    # Calcula a pressao no ponto 58
-    def calculate_p58(self, rho: float, g: float = 9.81) -> None:
-        p58 = solver_p58(deltah=self.deltah, rho=rho, g=g, H=self.wave.height)
-        self.p58 = p58
+    # Calcula a pressao no ponto 1
+    def calculate_p1(self, rho: float, g: float = 9.81) -> None:
+        p1 = (self.deltap + rho*g*self.length) * ((self.wave.height + self.deltah)/(self.wave.height + self.length + self.deltah))
+        self.p1 = p1
+    # Calcula a pressao no ponto 2
+    def calculate_p2(self, rho: float, g: float = 9.81) -> None:
+        p2 = rho*g*( self.wave.height - self.deltah )
+        self.p2 = p2

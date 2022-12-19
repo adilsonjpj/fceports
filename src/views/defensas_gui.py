@@ -39,28 +39,28 @@ def defensas_gui(win):
     statusbar.grid(row=10, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     ###############################################################################
     # BOTAO PARA REYNOLDS
-    btn_reynolds = tk.Button(app, text = 'REYNOLDS')
+    btn_reynolds = tk.Button(app, text = 'ENERGIA DE ATRACAÇÃO')
     btn_reynolds.grid(row=1, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA STROUHAL
-    btn_strouhal = tk.Button(app, text = 'STROUHAL')
+    btn_strouhal = tk.Button(app, text = 'VELOCIDADE DE ATRACAÇÃO')
     btn_strouhal.grid(row=2, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA FORÇA ESTÁTICA
-    btn_festatica = tk.Button(app, text = 'FORÇA ESTÁTICA')
+    btn_festatica = tk.Button(app, text = 'COEF. ADICIONAL DE MASSA')
     btn_festatica.grid(row=3, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA IMPULSO LATERAL
-    btn_impulsolateral = tk.Button(app, text = 'IMPULSO LATERAL')
+    btn_impulsolateral = tk.Button(app, text = 'COEF. DE EXCENTRICIDADE')
     btn_impulsolateral.grid(row=4, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA IMPULSO VCRITICA
-    btn_vcrit = tk.Button(app, text = 'VELOCIDADE CRITICA')
+    btn_vcrit = tk.Button(app, text = 'COEF. DE RIGIDEZ')
     btn_vcrit.grid(row=5, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA IMPULSO LATERAL
-    btn_ca = tk.Button(app, text = 'COEFICIENTE DE AMORTECIMENTO')
+    btn_ca = tk.Button(app, text = 'COEF. DE CONFIGURAÇÃO DO CAIS')
     btn_ca.grid(row=6, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA IMPULSO LATERAL
-    btn_mefetiva = tk.Button(app, text = 'MASSA EFETIVA')
+    btn_mefetiva = tk.Button(app, text = 'ESPAÇAMENTO ENTRE DEFENSAS')
     btn_mefetiva.grid(row=7, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     # BOTAO PARA FREQUENCIA NATURAL
-    btn_fn = tk.Button(app, text = 'FREQUÊNCIA NATURAL')
+    btn_fn = tk.Button(app, text = 'DIMENSIONAMENTO SUPERCONE')
     btn_fn.grid(row=8, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
 
     app.mainloop()

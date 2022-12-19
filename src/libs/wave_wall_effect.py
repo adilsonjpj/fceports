@@ -44,9 +44,9 @@ def solver_deltap(
         , v
     ))
 
-def solver_p17(
+def solver_p1(
     v=1,
-    p17 = sym.Symbol('p17'), 
+    p1 = sym.Symbol('p1'), 
     deltap = sym.Symbol('Δp'),
     deltah = sym.Symbol('Δh'),
     rho = sym.Symbol('𝜌'),
@@ -54,19 +54,19 @@ def solver_p17(
     H = sym.Symbol('H'),
     h = sym.Symbol('h')):
     return(sym.solvers.nsolve(
-        ( (deltap + rho*g*h) * ( (H + deltah)/(H + h + deltah) ) ) - p17
+        ( (deltap + rho*g*h) * ( (H + deltah)/(H + h + deltah) ) ) - p1
         , v
     ))
 
-def solver_p58(
+def solver_p2(
     v=1,
-    p58 = sym.Symbol('p58'),
+    p2 = sym.Symbol('p2'),
     deltah = sym.Symbol('Δh'),
     rho = sym.Symbol('𝜌'),
     g = sym.Symbol('g'),
     H = sym.Symbol('H')):
     return(sym.solvers.nsolve(
-        (rho*g*( H - deltah )) - p58
+        (rho*g*( H - deltah )) - p2
         , v
     ))
 

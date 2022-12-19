@@ -1,6 +1,9 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
 from libs.currents_lib import solver_massa_efetiva
+from views.corrente.massa_efetiva.caso1_gui import caso1_gui
+from views.corrente.massa_efetiva.caso2_gui import caso2_gui
+from views.corrente.massa_efetiva.caso3_gui import caso3_gui
 from PIL import Image, ImageTk
 
 def massa_efetiva_gui(win):    
@@ -53,31 +56,18 @@ def massa_efetiva_gui(win):
     lbl_paramentros_local.grid(row=1, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     #### LOCAL E ESTACA
     #### COMECA NA LINHA 2
-    # fk
-    lbl_fk = tk.Label(app, text = 'fk')
-    lbl_fk.grid(row=2, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_fk = tk.Entry(app, width=20)
-    ety_fk.grid(row=2, column=1, padx=10, pady=5, sticky=tk.N)
-
-    # rho 3
-    lbl_Uo = tk.Label(app, text = 'Uo (m/s)')
-    lbl_Uo.grid(row=3, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_Uo = tk.Entry(app, width=20)
-    ety_Uo.grid(row=3, column=1, padx=10, pady=5, sticky=tk.N)
-
-    # D 4
-    lbl_D = tk.Label(app, text = 'D (m)')
-    lbl_D.grid(row=4, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    ety_D = tk.Entry(app, width=20)
-    ety_D.grid(row=4, column=1, padx=10, pady=5, sticky=tk.N)
-
-    # Hb 5
-    #lbl_hb = tk.Label(app, text = 'Hb (m)')
-    #lbl_hb.grid(row=5, column=0, ipadx=5, pady=5, sticky=tk.W+tk.N)
-    #ety_hb = tk.Entry(app, width=20)
-    #ety_hb.grid(row=5, column=1, padx=10, pady=5, sticky=tk.N)
-
-    ###############################################################################
+    
+    # BOTAO PARA ENGASTADA-ENGASTADA
+    btn_caso1 = tk.Button(app, text = 'CASO I', command= lambda: caso1_gui(app))
+    btn_caso1.grid(row=1, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
+    # BOTAO PARA ENGASTADA-APOIADA
+    btn_caso2 = tk.Button(app, text = 'CASO II', command= lambda: caso2_gui(app))
+    btn_caso2.grid(row=2, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
+    # BOTAO PARA ENGASTADA-LIVRE
+    btn_caso3 = tk.Button(app, text = 'CASO III', command= lambda: caso3_gui(app))
+    btn_caso3.grid(row=3, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
+    
+        ###############################################################################
     ###############################################################################
     # STATUS BAR
     statusbar = tk.Label(app, text="Criado por Adilson José Pereira Junior <adilsonjpj@protonmail.com>", bd=1, relief=tk.SUNKEN)
@@ -111,28 +101,11 @@ def massa_efetiva_gui(win):
         )
     canva_equacao.pack(side = tk.TOP)
 
-    lbl_resultado = tk.Label(
-        frm_drawning, 
-        text = 'S = ',
-        font = ('Times New Roman', 20, 'bold')
-        )
-    lbl_resultado.pack(side = tk.TOP)
-
-    image = Image.open("img/equacao_massa_efetiva.png")
-    image = image.resize((680,205), Image.ANTIALIAS)
+    image = Image.open("img/casos-frequencia-natural.jpg")
+    image = image.resize((510,265), Image.ANTIALIAS)
     pic = ImageTk.PhotoImage(image)
     #img = tk.PhotoImage(file="")      
     canva_equacao.create_image(350,125, anchor=tk.CENTER, image=pic)      
  
-    def draw_results():
-        fk = float(ety_fk.get())
-        D = float(ety_D.get())
-        Uo = float(ety_Uo.get())
-        S = solver_massa_efetiva()
-        lbl_resultado.configure(text='S = ' + str(round(S, 2)))
 
-    ###############################################################################
-    # BOTAO PARA CALCULAR
-    btn_calculate = tk.Button(app, text = 'CALCULAR', command=draw_results)
-    btn_calculate.grid(row=6, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     app.mainloop()
