@@ -1,5 +1,6 @@
 ## BIBLIOTECAS ##
 from operator import mod
+import tkinter.filedialog
 import tkinter as tk
 from views.efeito_ondas.efeito_onda_estaca_max import *
 from libs.gui_lib import *
@@ -108,7 +109,7 @@ def onda_estaca_max_gui(win):
     ###############################################################################
     # STATUS BAR
     statusbar = tk.Label(app, text="Criado por Adilson José Pereira Junior <adilsonjpj@protonmail.com>", bd=1, relief=tk.SUNKEN)
-    statusbar.grid(row=11, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
+    statusbar.grid(row=12, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
     ###############################################################################
     # DESENHO DA ESTACA
     frm_drawning = tk.Frame(
@@ -139,8 +140,15 @@ def onda_estaca_max_gui(win):
         )
     canva_inercia.pack(side = tk.LEFT)
 
+    def save_results(tabela_cargas):
+        caminho = tk.filedialog.asksaveasfilename(
+            title="Salvar resultados",
+            defaultextension="xlsx"
+        )
+        tabela_cargas.to_excel(caminho, index = False )
+
     def draw_results():
-        solo, agua, estaca, cargas_arraste, cargas_inercia, textos_arraste, textos_inercia, cota_arraste, cota_inercia, textos_cotas, FD, FM = coordenadas_canva(
+        solo, agua, estaca, cargas_arraste, cargas_inercia, textos_arraste, textos_inercia, cota_arraste, cota_inercia, textos_cotas, FD, FM, tabela_cargas = coordenadas_canva(
             largura_canva = canva_largura,
             altura_canva = canva_altura,
             periodo_onda = float(ety_periodo_onda.get()),
@@ -262,10 +270,13 @@ def onda_estaca_max_gui(win):
             text = str(round(FM, 2)) + ' kN',
             fill='red'
         )
+         # BOTAO PARA CALCULAR
+        btn_calculate.destroy()
+        btn_export = tk.Button(app, text = 'EXPORTAR RESULTADO', command=lambda:save_results(tabela_cargas))
+        btn_export.grid(row=10, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
     ###############################################################################
     # BOTAO PARA CALCULAR
     btn_calculate = tk.Button(app, text = 'CALCULAR', command=draw_results)
     btn_calculate.grid(row=10, column=0, columnspan=2 , sticky=tk.W+tk.E, padx=5, pady=5)
-
 
     app.mainloop()

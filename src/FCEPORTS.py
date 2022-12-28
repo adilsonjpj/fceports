@@ -1,6 +1,5 @@
 ## BIBLIOTECAS ##
 import tkinter as tk
-from views.atracacao_gui import atracacao_gui
 from views.correntes_gui import correntes_gui
 from views.defensas_gui import defensas_gui
 from views.estacas_gui import estacas_gui
@@ -63,12 +62,9 @@ btn_obstaculos.grid(row=3, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pa
 # BOTAO PARA CORRENTES
 btn_correntes = tk.Button(app, text = 'CORRENTES', command=lambda:correntes_gui(app))
 btn_correntes.grid(row=4, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
-# BOTAO PARA ATRACAÇÃO
-btn_atracacao = tk.Button(app, text = 'ATRACAÇÃO', command=lambda:atracacao_gui(app))
-btn_atracacao.grid(row=5, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
 # BOTAO PARA DEFENSAS
-btn_atracacao = tk.Button(app, text = 'DEFENSAS', command=lambda:defensas_gui(app))
-btn_atracacao.grid(row=6, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
+btn_atracacao = tk.Button(app, text = 'ATRACAÇÃO/DEFENSAS', command=lambda:defensas_gui(app))
+btn_atracacao.grid(row=5, column=0, columnspan=3 , sticky=tk.W+tk.E, padx=5, pady=5)
 
 
 app.mainloop()

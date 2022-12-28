@@ -1,5 +1,6 @@
 from libs.gui_lib import *
 from libs.structures_lib import *
+from pandas import DataFrame
 
 
 ############################################################################################
@@ -34,6 +35,17 @@ def coordenadas_canva(
     # 
     carregamento_inercia = estaca.calculate_max_inertia_force(rho=rho)
     carregamento_arraste = estaca.calculate_max_drag_force(rho=rho)
+
+    profund_=[]
+    arraste_=[]
+    for i in carregamento_arraste:
+        profund_.append(i.x)
+        arraste_.append(round(float(i.y),3))
+    inercia_=[]
+    for i in carregamento_inercia:
+        inercia_.append(round(float(i.y),3))
+    tabela_cargas = DataFrame(list(zip(profund_,arraste_, inercia_)), columns=['Profundidade Z (m)', 'Arraste (N/m)', 'Inercia (N/m)'])
+    print(tabela_cargas.dtypes)
     ## SETANDO AS VARIAVEIS DA FORMULA
     h = round(profundidade,2) # Profundidade do local
 
@@ -141,5 +153,5 @@ def coordenadas_canva(
     textos_inercia = [t_agua, t_solo, t_carga_topo_inercia, t_carga_base_inercia, titulo_inercia]
     textos_cotas = [t_cota_arraste, t_cota_inercia]
 
-    return(solo, agua, d_estaca, cargas_arraste, cargas_inercia, textos_arraste, textos_inercia, cota_arraste, cota_inercia, textos_cotas, FD, FM)
+    return(solo, agua, d_estaca, cargas_arraste, cargas_inercia, textos_arraste, textos_inercia, cota_arraste, cota_inercia, textos_cotas, FD, FM, tabela_cargas)
 
